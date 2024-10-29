@@ -7,10 +7,15 @@ struct Login: Encodable {
     let password: String
 }
 
+protocol IButtonTapped: AnyObject {
+   func loginButtonTapped()
+}
 
 final class LoginRegisterScreen: UIView {
 
     // MARK: - Properties
+
+    weak var delegate: IButtonTapped?
 
     let login = Login(login: "testsrreqw@mail.ru", password: "12345551")
 
@@ -56,6 +61,7 @@ final class LoginRegisterScreen: UIView {
         textField.layer.borderColor = UIColor.systemBrown.cgColor
         textField.layer.borderWidth = 2
         textField.layer.cornerRadius = 24.5
+        textField.isSecureTextEntry = true
         textField.delegate = self
         return textField
     }()
@@ -79,12 +85,13 @@ final class LoginRegisterScreen: UIView {
         textField.layer.borderColor = UIColor.systemBrown.cgColor
         textField.layer.borderWidth = 2
         textField.layer.cornerRadius = 24.5
+        textField.isSecureTextEntry = true
         textField.delegate = self
         return textField
     }()
 
     private lazy var loginRegisterButton: UIButton = {
-        let button = UIButton()
+        let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         let titleString = NSMutableAttributedString(string: "Регистрация")
         let attributes: [NSAttributedString.Key : Any] = [
@@ -96,13 +103,13 @@ final class LoginRegisterScreen: UIView {
         button.setAttributedTitle(titleString, for: .normal)
         button.backgroundColor = .systemBrown
         button.layer.cornerRadius = 24.5
+        button.addTarget(self, action: #selector(loginButtonTapped), for: .touchUpInside)
         return button
     }()
 
     // MARK: - Lifecycle
     init() {
         super.init(frame: .zero)
-        checkKeychain()
         addTapGesture()
         self.backgroundColor = .systemBackground
     }
@@ -114,6 +121,10 @@ final class LoginRegisterScreen: UIView {
 
     // MARK: - Functions
 
+    @objc private func loginButtonTapped() {
+        delegate?.loginButtonTapped()
+    }
+    
    @objc private func makeViewFirstResponder() {
        self.endEditing(true)
     }
@@ -123,8 +134,7 @@ final class LoginRegisterScreen: UIView {
         self.addGestureRecognizer(tapgesture)
     }
 
-    private func checkKeychain() {
-        let keychain = true
+    func checkKeychain(keychain: Bool) {
 
         if keychain {
             let titleString = NSMutableAttributedString(string: "Войти")

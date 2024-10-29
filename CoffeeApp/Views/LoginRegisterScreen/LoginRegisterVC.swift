@@ -23,9 +23,11 @@ final class LoginRegisterVC: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor(red: 250/255, green: 249/255, blue: 249/255, alpha: 1)
-        presenter.viewDidLoad(view: loginRegisterView)
-        changeNavTitle()
+        presenter.viewDidLoad(view: self)
+        checkKeychain()
         layoutLoginView()
+        presenter.sendRegistrationRequest(login: Login(login: "", password: ""))
+        loginRegisterView.delegate = self
     }
 
 
@@ -42,10 +44,10 @@ final class LoginRegisterVC: UIViewController {
         }
     }
 
-    private func changeNavTitle() {
+    private func changeNavTitle(title: String) {
         let navigationView = UIView()
         let titleLabel = UILabel()
-        let title = "Регистрация"
+        let title = title
         let characterSpacing = 0.12
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.boldSystemFont(ofSize: 18),
@@ -60,5 +62,27 @@ final class LoginRegisterVC: UIViewController {
         titleLabel.center = navigationView.center
         navigationView.addSubview(titleLabel)
         self.navigationItem.titleView = navigationView
+    }
+
+    private func checkKeychain() {
+        let keychain = true
+        if keychain {
+            changeNavTitle(title: "Вход")
+        } else {
+            changeNavTitle(title: "Регистрация")
+        }
+        loginRegisterView.checkKeychain(keychain: keychain)
+    }
+}
+
+// MARK: - Presenter Output
+extension LoginRegisterVC: IMainScreenView {
+
+}
+
+// MARK: - IBUttonDelegate
+extension LoginRegisterVC: IButtonTapped {
+    func loginButtonTapped() {
+        presenter.pushCoffeeShops()
     }
 }

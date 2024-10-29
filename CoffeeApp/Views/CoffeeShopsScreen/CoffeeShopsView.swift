@@ -1,0 +1,89 @@
+import UIKit
+import SnapKit
+
+
+final class CoffeeShopsView: UIView {
+    // MARK: - Properties
+    private lazy var coffeeShopsTableView: UITableView = {
+        let coffeeShopsTableView = UITableView(frame: .zero, style: .plain)
+        coffeeShopsTableView.translatesAutoresizingMaskIntoConstraints = false
+        coffeeShopsTableView.delegate = self
+        coffeeShopsTableView.dataSource = self
+        coffeeShopsTableView.register(CoffeeShopTableCell.self, forCellReuseIdentifier: .cofeeShopID)
+        return coffeeShopsTableView
+    }()
+
+    private lazy var onMapButton: UIButton = {
+        let onMapButton = UIButton(type: .system)
+        onMapButton.translatesAutoresizingMaskIntoConstraints = false
+        let titleString = NSMutableAttributedString(string: "На карте")
+        let attributes: [NSAttributedString.Key : Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 18),
+            .foregroundColor: UIColor.systemBackground,
+            .kern: 0.14
+        ]
+        titleString.addAttributes(attributes, range: NSRange(location: 0, length: titleString.length))
+        onMapButton.setAttributedTitle(titleString, for: .normal)
+        onMapButton.backgroundColor = .systemBrown
+        onMapButton.layer.cornerRadius = 24.5
+        return onMapButton
+    }()
+
+    // MARK: - Lifecycle
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        addViewsToMainView()
+        layoutChildViews()
+        backgroundColor = .systemBlue
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+
+
+    // MARK: - Funcs
+
+    private func addViewsToMainView() {
+        self.addSubview(coffeeShopsTableView)
+        self.addSubview(onMapButton)
+    }
+
+    private func layoutChildViews() {
+        coffeeShopsTableView.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+            make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-100)
+            make.width.equalTo(self.snp.width)
+        }
+
+        onMapButton.snp.makeConstraints { make in
+            make.top.equalTo(coffeeShopsTableView.snp.bottom).offset(10)
+            make.leading.equalTo(self.snp.leading).offset(17)
+            make.trailing.equalTo(self.snp.trailing).offset(-18)
+            make.height.equalTo(47)
+        }
+    }
+}
+
+
+extension CoffeeShopsView: UITableViewDataSource {
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 4
+    }
+    
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: .cofeeShopID, for: indexPath) as? CoffeeShopTableCell else { return UITableViewCell() }
+        return cell
+
+    }
+    
+
+}
+
+extension CoffeeShopsView: UITableViewDelegate {
+
+}
