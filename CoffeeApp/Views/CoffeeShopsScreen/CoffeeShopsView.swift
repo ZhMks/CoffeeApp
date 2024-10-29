@@ -5,11 +5,12 @@ import SnapKit
 final class CoffeeShopsView: UIView {
     // MARK: - Properties
     private lazy var coffeeShopsTableView: UITableView = {
-        let coffeeShopsTableView = UITableView(frame: .zero, style: .plain)
+        let coffeeShopsTableView = UITableView(frame: .zero, style: .insetGrouped)
         coffeeShopsTableView.translatesAutoresizingMaskIntoConstraints = false
         coffeeShopsTableView.delegate = self
         coffeeShopsTableView.dataSource = self
         coffeeShopsTableView.register(CoffeeShopTableCell.self, forCellReuseIdentifier: .cofeeShopID)
+        coffeeShopsTableView.rowHeight = 71
         return coffeeShopsTableView
     }()
 
@@ -35,13 +36,12 @@ final class CoffeeShopsView: UIView {
         super.init(frame: frame)
         addViewsToMainView()
         layoutChildViews()
-        backgroundColor = .systemBlue
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 
 
     // MARK: - Funcs
@@ -71,19 +71,35 @@ final class CoffeeShopsView: UIView {
 
 
 extension CoffeeShopsView: UITableViewDataSource {
-    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
         return 4
     }
-    
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return 1
+    }
+
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: .cofeeShopID, for: indexPath) as? CoffeeShopTableCell else { return UITableViewCell() }
         return cell
 
     }
-    
+
+    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
+        5
+    }
+
+    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
+        let headerView = UIView()
+        headerView.backgroundColor = UIColor.clear
+        return headerView
+    }
 
 }
 
 extension CoffeeShopsView: UITableViewDelegate {
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 
+    }
 }

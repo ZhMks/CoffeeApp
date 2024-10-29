@@ -26,10 +26,10 @@ final class CoffeeShopTableCell: UITableViewCell {
     // MARK: - Lifecycle
 
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
-        super.init(style: .subtitle, reuseIdentifier: reuseIdentifier)
+        super.init(style: .default, reuseIdentifier: reuseIdentifier)
         setupSubviews()
         layoutForChildViews()
-        contentView.backgroundColor = .systemBrown
+        contentView.backgroundColor = UIColor(red: 175/255, green: 148/255, blue: 121/255, alpha: 1)
     }
 
     required init?(coder: NSCoder) {
@@ -56,7 +56,7 @@ final class CoffeeShopTableCell: UITableViewCell {
             make.top.equalTo(nameLabel.snp.bottom).offset(6)
             make.leading.equalTo(contentView.snp.leading).offset(10)
             make.trailing.equalTo(contentView.snp.trailing).offset(-199)
-            make.height.equalTo(21)
+            make.bottom.equalTo(contentView.snp.bottom).offset(-5)
         }
     }
 
