@@ -7,11 +7,22 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B2225E342CD0CBEF00794C2E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E332CD0CBEF00794C2E /* SnapKit */; };
-		B2225E362CD0CBEF00794C2E /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E352CD0CBEF00794C2E /* SnapKit-Dynamic */; };
-		B2225E392CD0CC1800794C2E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E382CD0CC1800794C2E /* Alamofire */; };
-		B2225E3B2CD0CC1800794C2E /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E3A2CD0CC1800794C2E /* AlamofireDynamic */; };
+		B2225E4E2CD0D28F00794C2E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E4D2CD0D28F00794C2E /* Alamofire */; };
+		B2225E532CD0D29500794C2E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E522CD0D29500794C2E /* SnapKit */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		B2225E702CD0D3D800794C2E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		B2225E0A2CD0CB0500794C2E /* CoffeeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoffeeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -21,6 +32,7 @@
 		B2225E1C2CD0CB0700794C2E /* Exceptions for "CoffeeApp" folder in "CoffeeApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"/Localized: LaunchScreen.storyboard",
 				Info.plist,
 			);
 			target = B2225E092CD0CB0500794C2E /* CoffeeApp */;
@@ -43,10 +55,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2225E392CD0CC1800794C2E /* Alamofire in Frameworks */,
-				B2225E3B2CD0CC1800794C2E /* AlamofireDynamic in Frameworks */,
-				B2225E342CD0CBEF00794C2E /* SnapKit in Frameworks */,
-				B2225E362CD0CBEF00794C2E /* SnapKit-Dynamic in Frameworks */,
+				B2225E532CD0D29500794C2E /* SnapKit in Frameworks */,
+				B2225E4E2CD0D28F00794C2E /* Alamofire in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,6 +89,7 @@
 				B2225E062CD0CB0500794C2E /* Sources */,
 				B2225E072CD0CB0500794C2E /* Frameworks */,
 				B2225E082CD0CB0500794C2E /* Resources */,
+				B2225E702CD0D3D800794C2E /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -89,10 +100,8 @@
 			);
 			name = CoffeeApp;
 			packageProductDependencies = (
-				B2225E332CD0CBEF00794C2E /* SnapKit */,
-				B2225E352CD0CBEF00794C2E /* SnapKit-Dynamic */,
-				B2225E382CD0CC1800794C2E /* Alamofire */,
-				B2225E3A2CD0CC1800794C2E /* AlamofireDynamic */,
+				B2225E4D2CD0D28F00794C2E /* Alamofire */,
+				B2225E522CD0D29500794C2E /* SnapKit */,
 			);
 			productName = CoffeeApp;
 			productReference = B2225E0A2CD0CB0500794C2E /* CoffeeApp.app */;
@@ -123,8 +132,8 @@
 			mainGroup = B2225E012CD0CB0500794C2E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				B2225E322CD0CBEF00794C2E /* XCRemoteSwiftPackageReference "SnapKit" */,
-				B2225E372CD0CC1800794C2E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				B2225E4C2CD0D28F00794C2E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				B2225E512CD0D29500794C2E /* XCRemoteSwiftPackageReference "SnapKit" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B2225E0B2CD0CB0500794C2E /* Products */;
@@ -168,7 +177,6 @@
 				INFOPLIST_FILE = CoffeeApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
@@ -200,7 +208,6 @@
 				INFOPLIST_FILE = CoffeeApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
@@ -364,15 +371,7 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B2225E322CD0CBEF00794C2E /* XCRemoteSwiftPackageReference "SnapKit" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 5.7.1;
-			};
-		};
-		B2225E372CD0CC1800794C2E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		B2225E4C2CD0D28F00794C2E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
 			requirement = {
@@ -380,28 +379,26 @@
 				minimumVersion = 5.10.1;
 			};
 		};
+		B2225E512CD0D29500794C2E /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B2225E332CD0CBEF00794C2E /* SnapKit */ = {
+		B2225E4D2CD0D28F00794C2E /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B2225E322CD0CBEF00794C2E /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
-		};
-		B2225E352CD0CBEF00794C2E /* SnapKit-Dynamic */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B2225E322CD0CBEF00794C2E /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
-		};
-		B2225E382CD0CC1800794C2E /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B2225E372CD0CC1800794C2E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = B2225E4C2CD0D28F00794C2E /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		B2225E3A2CD0CC1800794C2E /* AlamofireDynamic */ = {
+		B2225E522CD0D29500794C2E /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B2225E372CD0CC1800794C2E /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = AlamofireDynamic;
+			package = B2225E512CD0D29500794C2E /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
