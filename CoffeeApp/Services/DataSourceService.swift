@@ -1,14 +1,10 @@
 import Foundation
 
 
-struct User {
-    let token: String
-    let lifetime: Int32
-}
-
 protocol IDataSourceService {
     init(decoder: IDecoderService)
     func getUser(_ data: Data?, completion: @escaping (Result<User, Error>) -> Void)
+    func getCoffeeShops(_ data: Data?, completion: @escaping (Result<CoffeeShopsModel, Error>) -> Void)
 }
 
 final class DataSourceService: IDataSourceService {
@@ -23,12 +19,24 @@ final class DataSourceService: IDataSourceService {
             switch result {
             case .success(let decodedModel):
                 if let decodedModel = decodedModel {
-                    let newUser = User(token: decodedModel.token, lifetime: decodedModel.lifetime)
+                    let newUser = User(token: decodedModel.token,
+                                       lifetime: decodedModel.lifetime)
                     completion(.success(newUser))
                 }
             case .failure(let failure):
                 completion(.failure(failure))
                 print(failure.localizedDescription)
+            }
+        }
+    }
+
+    func getCoffeeShops(_ data: Data?, completion: @escaping (Result<CoffeeShopsModel, Error>) -> Void) {
+        decoder.decode(type: CoffeeShopsNetworkModel.self, data) { result in
+            switch result {
+            case .success(let coffeeShops):
+                print(coffeeShops)
+            case .failure(let failure):
+                completion(.failure(failure))
             }
         }
     }

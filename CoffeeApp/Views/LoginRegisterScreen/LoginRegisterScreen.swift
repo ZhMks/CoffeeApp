@@ -2,20 +2,17 @@ import Alamofire
 import SnapKit
 import UIKit
 
-struct Login: Encodable {
-    let login: String
-    let password: String
-}
 
-protocol IButtonTapped: AnyObject {
+protocol ILoginViewDelegate: AnyObject {
    func loginButtonTapped()
+    func validationHappen(text: String, field: TextFields)
 }
 
 final class LoginRegisterScreen: UIView {
 
     // MARK: - Properties
 
-    weak var delegate: IButtonTapped?
+    weak var delegate: ILoginViewDelegate?
 
     let login = Login(login: "testsrreqw@mail.ru", password: "12345551")
 
@@ -26,6 +23,16 @@ final class LoginRegisterScreen: UIView {
         label.font = UIFont.systemFont(ofSize: 15)
         label.textColor = .systemBrown
         return label
+    }()
+
+    private lazy var errorLabel: UILabel = {
+        let errorLabel = UILabel()
+        errorLabel.translatesAutoresizingMaskIntoConstraints = false
+        errorLabel.text = ""
+        errorLabel.font = .systemFont(ofSize: 12, weight: .regular)
+        errorLabel.textColor = .red
+        errorLabel.isHidden = true
+        return errorLabel
     }()
 
     private lazy var emailTextField: UITextField = {
@@ -113,20 +120,20 @@ final class LoginRegisterScreen: UIView {
         addTapGesture()
         self.backgroundColor = .systemBackground
     }
-    
+
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
 
     // MARK: - Functions
 
     @objc private func loginButtonTapped() {
         delegate?.loginButtonTapped()
     }
-    
-   @objc private func makeViewFirstResponder() {
-       self.endEditing(true)
+
+    @objc private func makeViewFirstResponder() {
+        self.endEditing(true)
     }
 
     private func addTapGesture() {
@@ -134,25 +141,43 @@ final class LoginRegisterScreen: UIView {
         self.addGestureRecognizer(tapgesture)
     }
 
-    func checkKeychain(keychain: Bool) {
 
-        if keychain {
-            let titleString = NSMutableAttributedString(string: "Войти")
-            let attributes: [NSAttributedString.Key : Any] = [
-                .font: UIFont.boldSystemFont(ofSize: 18),
-                .foregroundColor: UIColor.systemBackground,
-                .kern: 0.14
-            ]
-            titleString.addAttributes(attributes, range: NSRange(location: 0, length: titleString.length))
-            loginRegisterButton.setAttributedTitle(titleString, for: .normal)
-            addLoginSubviews()
-            layoutConstraintsForLogin()
-        } else {
-            addRegisterSubviews()
-            layoutConstraintsForRegister()
-        }
+}
+
+// MARK: - TextFieldDelegate
+extension LoginRegisterScreen: UITextFieldDelegate {
+
+    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
+        textField.resignFirstResponder()
     }
 
+    func textFieldDidEndEditing(_ textField: UITextField) {
+        if textField == emailTextField {
+            delegate?.validationHappen(text: textField.text!, field: .email)
+        }
+    }
+}
+
+// MARK: -Layout
+extension LoginRegisterScreen {
+
+    func setUpForLoginView() {
+        let titleString = NSMutableAttributedString(string: "Войти")
+        let attributes: [NSAttributedString.Key : Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 18),
+            .foregroundColor: UIColor.systemBackground,
+            .kern: 0.14
+        ]
+        titleString.addAttributes(attributes, range: NSRange(location: 0, length: titleString.length))
+        loginRegisterButton.setAttributedTitle(titleString, for: .normal)
+        addLoginSubviews()
+        layoutConstraintsForLogin()
+    }
+
+    func setUpForRegisterView() {
+        addRegisterSubviews()
+        layoutConstraintsForRegister()
+    }
 
     private func addLoginSubviews() {
         self.addSubview(emailLabel)
@@ -198,7 +223,6 @@ final class LoginRegisterScreen: UIView {
             make.height.equalTo(47)
         }
     }
-
 
     private func addRegisterSubviews() {
         self.addSubview(emailLabel)
@@ -261,10 +285,48 @@ final class LoginRegisterScreen: UIView {
         }
     }
 
-}
+    func showRedBorderForEmailField(error: String) {
+        errorLabel.isHidden = false
+        errorLabel.text = error
+        addSubview(errorLabel)
+        emailTextField.layer.borderColor = UIColor.red.cgColor
 
-extension LoginRegisterScreen: UITextFieldDelegate {
-    func textFieldShouldReturn(_ textField: UITextField) -> Bool {
-        textField.resignFirstResponder()
+        emailLabel.snp.remakeConstraints { make in
+            make.top.equalTo(self.snp.top).offset(160)
+            make.leading.equalTo(self.snp.leading).offset(18)
+            make.trailing.equalTo(self.snp.trailing).offset(-316)
+            make.height.equalTo(18)
+        }
+        emailTextField.snp.remakeConstraints { make in
+            make.top.equalTo(emailLabel.snp.bottom).offset(10)
+            make.leading.equalTo(self.snp.leading).offset(18)
+            make.trailing.equalTo(self.snp.trailing).offset(-17)
+            make.height.equalTo(47)
+        }
+        errorLabel.snp.makeConstraints { make in
+            make.top.equalTo(emailTextField.snp.bottom).offset(5)
+            make.leading.equalTo(self.snp.leading).offset(18)
+            make.trailing.equalTo(self.snp.trailing).offset(-10)
+            make.height.equalTo(18)
+        }
+    }
+
+    func showGreenBorderForEmail() {
+        errorLabel.removeFromSuperview()
+        emailTextField.layer.borderColor = UIColor.green.cgColor
+
+        emailLabel.snp.remakeConstraints { make in
+            make.top.equalTo(self.snp.top).offset(190)
+            make.leading.equalTo(self.snp.leading).offset(18)
+            make.trailing.equalTo(self.snp.trailing).offset(-316)
+            make.height.equalTo(18)
+        }
+
+        emailTextField.snp.remakeConstraints { make in
+            make.top.equalTo(emailLabel.snp.bottom).offset(8)
+            make.leading.equalTo(self.snp.leading).offset(17)
+            make.trailing.equalTo(self.snp.trailing).offset(-18)
+            make.height.equalTo(47)
+        }
     }
 }

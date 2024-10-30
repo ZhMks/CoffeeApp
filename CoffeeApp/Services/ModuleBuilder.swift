@@ -8,8 +8,9 @@ final class ModuleBuilder {
     func createRegisterVC() -> UIViewController {
         let loginRegisterRouter = LoginRegisterRouter()
         let decoder = DecoderService()
+        let validatorService = Validator()
         let dataSource = DataSourceService(decoder: decoder)
-        let loginRegisterInteractor = LoginRegisterInteractor(dataSource: dataSource)
+        let loginRegisterInteractor = LoginRegisterInteractor(dataSource: dataSource, validationService: validatorService)
         let loginRegisterPresenter = LoginRegisterPresenter(router: loginRegisterRouter, interactor: loginRegisterInteractor)
         let loginRegisterVC = LoginRegisterVC(presenter: loginRegisterPresenter)
 

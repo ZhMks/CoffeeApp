@@ -1,53 +1,87 @@
 import Alamofire
 import Foundation
+import KeychainAccess
 
 protocol ILoginInteractor: AnyObject {
     func sendRegisterRequest(login: Login)
-    init(dataSource: IDataSourceService)
+    func checkKeyChain()
+    func validateText(text: String, field: TextFields)
+    init(dataSource: IDataSourceService, validationService: IValidatorService)
 }
 
 protocol ILoginInteractorOutput: AnyObject {
-    func printData(request: User)
-    func printError(error: Error)
+    func goToCoffeeShops(request: User)
+    func showErrorAlert(error: Error)
+    func showRegisterScreen()
+    func showLoginScreen()
+    func showRedBorder(field: TextFields, errorText: String)
+    func showGreenBorder(field: TextFields)
 }
 
 final class LoginRegisterInteractor: ILoginInteractor {
+
     weak var interactorOutput: ILoginInteractorOutput?
     private let dataSource: IDataSourceService
+    private let validatorService: IValidatorService
 
-    init( dataSource: IDataSourceService) {
+    init( dataSource: IDataSourceService, validationService validatorService: IValidatorService) {
         self.dataSource = dataSource
+        self.validatorService = validatorService
     }
 
     func sendRegisterRequest(login: Login) {
-        let url = URL(string: "http://147.78.66.203:3210/auth/register")!
-        var request = URLRequest(url: url)
-        request.httpMethod = "POST"
-        let body = ["login": "value1", "password": "value2"]
-        request.httpBody = try? JSONSerialization.data(withJSONObject: body, options: .prettyPrinted)
-        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
-        request.setValue("application/json", forHTTPHeaderField: "accept")
+        let headers: HTTPHeaders = [
+            "Content-Type" : "application/json",
+        ]
+        let urlString = "http://147.78.66.203:3210/auth/register"
+        AF.request(urlString,
+                   method: .post,
+                   parameters: login,
+                   encoder: .json,
+                   headers: headers).response { [weak self] response in
+            self?.dataSource.getUser(response.data, completion: { [weak self] user in
+                switch user {
+                case .success(let newUser):
+                    let keychain = Keychain()
+                    do {
+                        try keychain.set(login.password, key: login.login)
+                        self?.interactorOutput?.goToCoffeeShops(request: newUser)
+                    } catch {
+                        print(error.localizedDescription)
+                    }
+                case .failure(let failure):
+                    self?.interactorOutput?.showErrorAlert(error: failure)
+                }
+            })
+        }
+    }
 
-        let task = URLSession.shared.dataTask(with: request) { data, response, error in
-            if let response = response as? HTTPURLResponse {
-                print(response.statusCode)
+    func checkKeyChain() {
+        if let token = try? Keychain().get("") {
+            interactorOutput?.showLoginScreen()
+        } else {
+            interactorOutput?.showRegisterScreen()
+        }
+    }
+
+    func validateText(text: String, field: TextFields) {
+        validatorService.validateField(text: text, textFields: field) { result in
+            switch result {
+            case .success(let success):
+                interactorOutput?.showGreenBorder(field: field)
+            case .failure(let failure):
+                switch failure {
+                case .emptyField:
+                    interactorOutput?.showRedBorder(field: field, errorText: "Пустое поле")
+                case .invalidEmail:
+                    interactorOutput?.showRedBorder(field: field, errorText: "Неправильный email")
+                case .invalidPassword:
+                    interactorOutput?.showRedBorder(field: field, errorText: "Неправильный пароль")
+                case .invalidRepeatPassword:
+                    interactorOutput?.showRedBorder(field: field, errorText: "Пароли не совпадают")
+                }
             }
         }
-        task.resume()
-
-//        AF.request("http://147.78.66.203:3210/auth/register",
-//                   method: .post,
-//                   parameters: body,
-//                   encoder: URLEncodedFormParameterEncoder(destination: .httpBody)).response { [weak self] response in
-//            self?.dataSource.getUser(response.data, completion: { [weak self] user in
-//                switch user {
-//                case .success(let newUser):
-//                    self?.interactorOutput?.printData(request: newUser)
-//                case .failure(let failure):
-//                    self?.interactorOutput?.printError(error: failure)
-//                }
-//            })
-//        }
     }
 
 }

@@ -6,11 +6,16 @@ protocol ILoginRegisterPresenter: AnyObject {
     init(router: IMainRouter, interactor: ILoginInteractor)
     func viewDidLoad(view: LoginRegisterVC)
     func sendRegistrationRequest(login: Login)
-    func pushCoffeeShops()
+    func checkKeyChain()
+    func validateField(text: String, filed: TextFields)
 }
 
 protocol IMainScreenView: AnyObject {
-    
+    func showAlert(error: Error)
+    func showViewLoginScreen()
+    func showRegistrationScreen()
+    func showGreenBorderField(field: TextFields)
+    func showRedBorderField(field: TextFields, errorText: String)
 }
 
 final class LoginRegisterPresenter: ILoginRegisterPresenter {
@@ -33,21 +38,44 @@ final class LoginRegisterPresenter: ILoginRegisterPresenter {
         interactor.sendRegisterRequest(login: login)
     }
 
-    func pushCoffeeShops() {
-        router.goToCofeeShops()
+    func checkKeyChain() {
+        interactor.checkKeyChain()
     }
+
+    func validateField(text: String, filed: TextFields) {
+        interactor.validateText(text: text, field: filed)
+    }
+
 }
 
 
 // MARK: - Interactor Output
 extension LoginRegisterPresenter: ILoginInteractorOutput {
+
+    func showGreenBorder(field: TextFields) {
+        view?.showGreenBorderField(field: field)
+    }
     
-    func printError(error: any Error) {
-        print(error.localizedDescription)
+
+    func showRedBorder(field: TextFields, errorText: String) {
+        view?.showRedBorderField(field: field, errorText: errorText)
     }
 
-    func printData(request: User) {
-        print(request.token)
+    func showRegisterScreen() {
+        view?.showRegistrationScreen()
+    }
+    
+    func showLoginScreen() {
+        view?.showViewLoginScreen()
+    }
+    
+    
+    func showErrorAlert(error: any Error) {
+        view?.showAlert(error: error)
+    }
+
+    func goToCoffeeShops(request: User) {
+        router.goToCofeeShops()
     }
     
     

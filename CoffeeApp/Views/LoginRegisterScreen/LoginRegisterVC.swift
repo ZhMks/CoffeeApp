@@ -22,12 +22,7 @@ final class LoginRegisterVC: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 250/255, green: 249/255, blue: 249/255, alpha: 1)
-        presenter.viewDidLoad(view: self)
-        checkKeychain()
-        layoutLoginView()
-        presenter.sendRegistrationRequest(login: Login(login: "", password: ""))
-        loginRegisterView.delegate = self
+        setupView()
     }
 
 
@@ -42,6 +37,14 @@ final class LoginRegisterVC: UIViewController {
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
             make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
         }
+    }
+
+    private func setupView() {
+        presenter.viewDidLoad(view: self)
+        loginRegisterView.delegate = self
+        layoutLoginView()
+        view.backgroundColor = UIColor(red: 250/255, green: 249/255, blue: 249/255, alpha: 1)
+        presenter.checkKeyChain()
     }
 
     private func changeNavTitle(title: String) {
@@ -63,26 +66,62 @@ final class LoginRegisterVC: UIViewController {
         navigationView.addSubview(titleLabel)
         self.navigationItem.titleView = navigationView
     }
-
-    private func checkKeychain() {
-        let keychain = true
-        if keychain {
-            changeNavTitle(title: "Вход")
-        } else {
-            changeNavTitle(title: "Регистрация")
-        }
-        loginRegisterView.checkKeychain(keychain: keychain)
-    }
 }
 
 // MARK: - Presenter Output
 extension LoginRegisterVC: IMainScreenView {
+    
+    func showGreenBorderField(field: TextFields) {
+        switch field {
+        case .email:
+            loginRegisterView.showGreenBorderForEmail()
+        case .password:
+            print()
+        case .repeatPassword:
+            print()
+        }
+    }
+    
+    func showRedBorderField(field: TextFields, errorText: String) {
+        switch field {
+        case .email:
+            loginRegisterView.showRedBorderForEmailField(error: errorText)
+        case .password:
+            print()
+        case .repeatPassword:
+            print()
+        }
+    }
+    
+
+    func showViewLoginScreen() {
+        changeNavTitle(title: "Вход")
+        loginRegisterView.setUpForLoginView()
+    }
+    
+    func showRegistrationScreen() {
+        changeNavTitle(title: "Регистрация")
+        loginRegisterView.setUpForRegisterView()
+    }
+    
+    func showAlert(error: any Error) {
+        let alertController = UIAlertController(title: "Ошибка", message: error.localizedDescription, preferredStyle: .alert)
+        let action = UIAlertAction(title: "Отмена", style: .cancel)
+        alertController.addAction(action)
+        navigationController?.present(alertController, animated: true)
+    }
+    
 
 }
 
 // MARK: - IBUttonDelegate
-extension LoginRegisterVC: IButtonTapped {
+extension LoginRegisterVC: ILoginViewDelegate {
+
+    func validationHappen(text: String, field: TextFields) {
+        presenter.validateField(text: text, filed: field)
+    }
+    
     func loginButtonTapped() {
-        presenter.pushCoffeeShops()
+
     }
 }
