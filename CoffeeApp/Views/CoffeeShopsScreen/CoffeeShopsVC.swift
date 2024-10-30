@@ -20,16 +20,8 @@ final class CoffeeShopsVC: UIViewController {
     }
     
     override func viewDidLoad() {
-
         super.viewDidLoad()
-
-        view.backgroundColor = .white
-
-        presenter.viewDidLoad(view: self)
-        
-        setupSubviews()
-        setupLayoutForSubviews()
-        presenter.fetchCoffeeShops()
+        initialSetup()
     }
 
 
@@ -41,9 +33,56 @@ final class CoffeeShopsVC: UIViewController {
     private func setupLayoutForSubviews() {
         coffeeShopView.translatesAutoresizingMaskIntoConstraints = false
         coffeeShopView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalTo(view.safeAreaLayoutGuide)
+            make.top.leading.trailing.equalTo(view.safeAreaLayoutGuide)
+            make.bottom.equalTo(view.snp.bottom)
             make.width.equalTo(view.snp.width)
         }
+    }
+
+    private func initialSetup() {
+        view.backgroundColor = UIColor(red: 250/255, green: 249/255, blue: 249/255, alpha: 1)
+
+        presenter.viewDidLoad(view: self)
+
+        setupSubviews()
+        setupLayoutForSubviews()
+        presenter.fetchCoffeeShops()
+        setupNavigationBar()
+        coffeeShopView.delegate = self
+    }
+
+    private func setupNavigationBar() {
+        let navigationView = UIView()
+        let titleLabel = UILabel()
+        let title = "Ближайшие кофейни"
+        let characterSpacing = -0.12
+        let attributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.boldSystemFont(ofSize: 18),
+            .foregroundColor: UIColor.systemBrown,
+            .kern: characterSpacing
+        ]
+
+        let attributedTitle = NSMutableAttributedString(string: title, attributes: attributes)
+
+        titleLabel.attributedText = attributedTitle
+        titleLabel.sizeToFit()
+        titleLabel.center = navigationView.center
+        navigationView.addSubview(titleLabel)
+
+        let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 24, height: 24))
+        let leftButton = UIButton(frame: CGRect(x: 6, y: 6, width: 8, height: 12))
+        leftButton.setBackgroundImage(UIImage(systemName: "chevron.left"), for: .normal)
+        leftView.addSubview(leftButton)
+        leftButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
+        leftButton.tintColor = .systemBrown
+
+        let leftBarButton = UIBarButtonItem(customView: leftView)
+        self.navigationItem.leftBarButtonItem = leftBarButton
+        self.navigationItem.titleView = navigationView
+    }
+
+    @objc private func dismissView() {
+        presenter.dismissView()
     }
 
 }
@@ -59,5 +98,14 @@ extension CoffeeShopsVC: ICoffeeShopsView {
         print(error.localizedDescription)
     }
     
+
+}
+
+// MARK: - CoffeShop Selected Delegate
+extension CoffeeShopsVC: ICoffeeShopSelected {
+    
+    func didSelectCoffeeShop(_ coffeeShop: Int) {
+        presenter.goToMenuView(id: coffeeShop)
+    }
 
 }

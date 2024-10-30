@@ -64,7 +64,6 @@ final class LoginRegisterInteractor: ILoginInteractor {
     }
 
     func sendAuthRequest(login: Login) {
-        print("Login: \(login)")
         let headers: HTTPHeaders = [
             "Content-Type" : "application/json",
         ]

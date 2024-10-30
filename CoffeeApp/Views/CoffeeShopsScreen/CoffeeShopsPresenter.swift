@@ -1,11 +1,14 @@
 protocol ICoffeShopPresenter: AnyObject {
     func viewDidLoad(view: CoffeeShopsVC)
     func fetchCoffeeShops()
+    func dismissView()
+    func goToMenuView(id: Int)
 }
 
 protocol ICoffeeShopsView: AnyObject {
     func updateTableViewWithData(data: [CoffeeShopsModel])
     func showError(error: Error)
+
 }
 
 final class CoffeeShopsPresenter: ICoffeShopPresenter {
@@ -30,12 +33,19 @@ final class CoffeeShopsPresenter: ICoffeShopPresenter {
         interactor.fetchCoffeeShops()
     }
 
+    func dismissView() {
+        router.dismissView()
+    }
+
+    func goToMenuView(id: Int) {
+        router.goToMenu(id: id)
+    }
+
 }
 
 extension CoffeeShopsPresenter: ICoffeeShopsInteractorOutput {
 
     func updateTableViewWithData(data: [CoffeeShopsModel]) {
-        print("Data inside Presenter: \(data)")
         self.dataInfo = data
         view?.updateTableViewWithData(data: self.dataInfo)
     }

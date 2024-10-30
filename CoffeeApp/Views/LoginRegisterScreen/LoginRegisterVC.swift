@@ -40,7 +40,7 @@ final class LoginRegisterVC: UIViewController {
             make.top.equalTo(view.safeAreaLayoutGuide.snp.top)
             make.leading.equalTo(view.safeAreaLayoutGuide.snp.leading)
             make.trailing.equalTo(view.safeAreaLayoutGuide.snp.trailing)
-            make.bottom.equalTo(view.safeAreaLayoutGuide.snp.bottom)
+            make.bottom.equalTo(view.snp.bottom)
         }
     }
 
@@ -56,7 +56,7 @@ final class LoginRegisterVC: UIViewController {
         let navigationView = UIView()
         let titleLabel = UILabel()
         let title = title
-        let characterSpacing = 0.12
+        let characterSpacing = -0.12
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.boldSystemFont(ofSize: 18),
             .foregroundColor: UIColor.systemBrown,

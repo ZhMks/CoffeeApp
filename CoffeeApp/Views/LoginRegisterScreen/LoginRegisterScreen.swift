@@ -125,8 +125,8 @@ final class LoginRegisterScreen: UIView {
         let titleString = NSMutableAttributedString(string: "Регистрация")
         let attributes: [NSAttributedString.Key : Any] = [
             .font: UIFont.boldSystemFont(ofSize: 18),
-            .foregroundColor: UIColor.systemBackground,
-            .kern: 0.14
+            .foregroundColor: UIColor(red: 246/255, green: 229/255, blue: 209/255, alpha: 1),
+            .kern: -0.14
         ]
         titleString.addAttributes(attributes, range: NSRange(location: 0, length: titleString.length))
         button.setAttributedTitle(titleString, for: .normal)
@@ -205,8 +205,8 @@ extension LoginRegisterScreen {
         let titleString = NSMutableAttributedString(string: "Войти")
         let attributes: [NSAttributedString.Key : Any] = [
             .font: UIFont.boldSystemFont(ofSize: 18),
-            .foregroundColor: UIColor.systemBackground,
-            .kern: 0.14
+            .foregroundColor: UIColor(red: 246/255, green: 229/255, blue: 209/255, alpha: 1),
+            .kern: -0.14
         ]
         titleString.addAttributes(attributes, range: NSRange(location: 0, length: titleString.length))
         loginRegisterButton.setAttributedTitle(titleString, for: .normal)

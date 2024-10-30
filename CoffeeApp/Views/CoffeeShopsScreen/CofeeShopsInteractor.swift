@@ -1,4 +1,5 @@
 import Alamofire
+import CoreLocation
 
 protocol ICoffeeShopInteractor: AnyObject {
     func fetchCoffeeShops()
@@ -16,11 +17,13 @@ final class CoffeeShopInteractor: ICoffeeShopInteractor {
     private let user: User
     weak var interactorOutput: ICoffeeShopsInteractorOutput?
     var modelsArray: [CoffeeShopsModel] = []
+    private let coreLocationManager: LocationManager
 
     // MARK: - Lifecycle
-    init(dataSource: IDataSourceService, user: User) {
+    init(dataSource: IDataSourceService, user: User, coreLocation: LocationManager) {
         self.dataSource = dataSource
         self.user = user
+        self.coreLocationManager = coreLocation
     }
 
 
@@ -39,7 +42,6 @@ final class CoffeeShopInteractor: ICoffeeShopInteractor {
                 case .success(let success):
                     self?.modelsArray = success
                     if let modelsArray = self?.modelsArray {
-                        print("DataInsideInteractor: \(modelsArray)")
                         self?.interactorOutput?.updateTableViewWithData(data: modelsArray)
                     }
                 case .failure(let failure):
@@ -47,5 +49,20 @@ final class CoffeeShopInteractor: ICoffeeShopInteractor {
                 }
             })
         }
+    }
+
+    func getDestinationDifference() {
+        
+    }
+}
+
+class LocationManager: NSObject, CLLocationManagerDelegate {
+
+    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
+        print()
+    }
+
+    func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
+        print()
     }
 }

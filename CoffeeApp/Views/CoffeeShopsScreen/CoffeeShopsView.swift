@@ -1,19 +1,27 @@
 import UIKit
 import SnapKit
 
+protocol ICoffeeShopSelected: AnyObject {
+    func didSelectCoffeeShop(_ coffeeShop: Int)
+}
+
 
 final class CoffeeShopsView: UIView {
     // MARK: - Properties
 
+    weak var delegate: ICoffeeShopSelected?
+
     var data: [CoffeeShopsModel] = []
 
     private lazy var coffeeShopsTableView: UITableView = {
-        let coffeeShopsTableView = UITableView(frame: .zero, style: .insetGrouped)
+        let coffeeShopsTableView = UITableView(frame: .zero, style: .plain)
         coffeeShopsTableView.translatesAutoresizingMaskIntoConstraints = false
         coffeeShopsTableView.delegate = self
         coffeeShopsTableView.dataSource = self
         coffeeShopsTableView.register(CoffeeShopTableCell.self, forCellReuseIdentifier: .cofeeShopID)
         coffeeShopsTableView.rowHeight = 71
+        coffeeShopsTableView.backgroundColor = .systemBackground
+        coffeeShopsTableView.separatorStyle = .none
         return coffeeShopsTableView
     }()
 
@@ -23,12 +31,12 @@ final class CoffeeShopsView: UIView {
         let titleString = NSMutableAttributedString(string: "На карте")
         let attributes: [NSAttributedString.Key : Any] = [
             .font: UIFont.boldSystemFont(ofSize: 18),
-            .foregroundColor: UIColor.systemBackground,
-            .kern: 0.14
+            .foregroundColor: UIColor(red: 246/255, green: 229/255, blue: 209/255, alpha: 1),
+            .kern: -0.14
         ]
         titleString.addAttributes(attributes, range: NSRange(location: 0, length: titleString.length))
         onMapButton.setAttributedTitle(titleString, for: .normal)
-        onMapButton.backgroundColor = .systemBrown
+        onMapButton.backgroundColor = UIColor(red: 52/255, green: 25/255, blue: 26/255, alpha: 1)
         onMapButton.layer.cornerRadius = 24.5
         return onMapButton
     }()
@@ -39,6 +47,7 @@ final class CoffeeShopsView: UIView {
         super.init(frame: frame)
         addViewsToMainView()
         layoutChildViews()
+        backgroundColor = .systemBackground
     }
 
     required init?(coder: NSCoder) {
@@ -59,7 +68,7 @@ final class CoffeeShopsView: UIView {
             make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
             make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading)
             make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)
-            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-100)
+            make.bottom.equalTo(self.snp.bottom).offset(-90)
             make.width.equalTo(self.snp.width)
         }
 
@@ -72,7 +81,6 @@ final class CoffeeShopsView: UIView {
     }
 
     func updateTableView(data: [CoffeeShopsModel]) {
-        print("DataInsideView: \(data)")
         self.data = data
         coffeeShopsTableView.reloadData()
     }
@@ -92,20 +100,20 @@ extension CoffeeShopsView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: .cofeeShopID, for: indexPath) as? CoffeeShopTableCell else { return UITableViewCell() }
-        let data = data[indexPath.section] 
+        let data = data[indexPath.section]
         cell.updateCellWithData(model: data)
+        cell.selectionStyle = .none
         return cell
-
     }
 
-    func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        5
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        10
     }
 
-    func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let headerView = UIView()
-        headerView.backgroundColor = UIColor.clear
-        return headerView
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
     }
 
 }
@@ -113,6 +121,10 @@ extension CoffeeShopsView: UITableViewDataSource {
 // MARK: - TableViewDelegate
 extension CoffeeShopsView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-
+        let data = data[indexPath.section]
+        tableView.deselectRow(at: indexPath, animated: true)
+        delegate?.didSelectCoffeeShop(data.id)
     }
+
+
 }
