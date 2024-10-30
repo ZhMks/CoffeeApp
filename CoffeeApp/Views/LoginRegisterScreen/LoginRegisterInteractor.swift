@@ -20,15 +20,18 @@ protocol ILoginInteractorOutput: AnyObject {
 
 final class LoginRegisterInteractor: ILoginInteractor {
 
+    // MARK: - Properties
     weak var interactorOutput: ILoginInteractorOutput?
     private let dataSource: IDataSourceService
     private let validatorService: IValidatorService
 
+    // MARK: - Lifecycle
     init( dataSource: IDataSourceService, validationService validatorService: IValidatorService) {
         self.dataSource = dataSource
         self.validatorService = validatorService
     }
 
+    // MARK: - Functions
     func sendRegisterRequest(login: Login) {
         let headers: HTTPHeaders = [
             "Content-Type" : "application/json",

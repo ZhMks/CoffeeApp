@@ -60,6 +60,10 @@ final class CoffeeShopTableCell: UITableViewCell {
         }
     }
 
+    func updateCellWithData(model: CoffeeShopsModel) {
+        nameLabel.text = model.name
+    }
+
 }
 
  extension String {

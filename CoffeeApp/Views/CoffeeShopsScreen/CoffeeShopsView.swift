@@ -4,6 +4,9 @@ import SnapKit
 
 final class CoffeeShopsView: UIView {
     // MARK: - Properties
+
+    var data: [CoffeeShopsModel] = []
+
     private lazy var coffeeShopsTableView: UITableView = {
         let coffeeShopsTableView = UITableView(frame: .zero, style: .insetGrouped)
         coffeeShopsTableView.translatesAutoresizingMaskIntoConstraints = false
@@ -67,13 +70,20 @@ final class CoffeeShopsView: UIView {
             make.height.equalTo(47)
         }
     }
+
+    func updateTableView(data: [CoffeeShopsModel]) {
+        print("DataInsideView: \(data)")
+        self.data = data
+        coffeeShopsTableView.reloadData()
+    }
 }
 
 
+// MARK: - TableViewDataSource
 extension CoffeeShopsView: UITableViewDataSource {
 
     func numberOfSections(in tableView: UITableView) -> Int {
-        return 4
+        return data.count
     }
 
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -82,6 +92,8 @@ extension CoffeeShopsView: UITableViewDataSource {
 
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: .cofeeShopID, for: indexPath) as? CoffeeShopTableCell else { return UITableViewCell() }
+        let data = data[indexPath.section] 
+        cell.updateCellWithData(model: data)
         return cell
 
     }
@@ -98,6 +110,7 @@ extension CoffeeShopsView: UITableViewDataSource {
 
 }
 
+// MARK: - TableViewDelegate
 extension CoffeeShopsView: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
 

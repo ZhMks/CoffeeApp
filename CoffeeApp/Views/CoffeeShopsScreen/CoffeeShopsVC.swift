@@ -4,10 +4,12 @@ import SnapKit
 
 final class CoffeeShopsVC: UIViewController {
 
+    // MARK: - Properties
     private let coffeeShopView = CoffeeShopsView(frame: .zero)
     private let presenter: CoffeeShopsPresenter
 
 
+    // MARK: - Lifecycle
     init(presenter: CoffeeShopsPresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
@@ -27,8 +29,11 @@ final class CoffeeShopsVC: UIViewController {
         
         setupSubviews()
         setupLayoutForSubviews()
+        presenter.fetchCoffeeShops()
     }
 
+
+    // MARK: - Functions
     private func setupSubviews() {
         view.addSubview(coffeeShopView)
     }
@@ -40,5 +45,19 @@ final class CoffeeShopsVC: UIViewController {
             make.width.equalTo(view.snp.width)
         }
     }
+
+}
+
+// MARK: -Presenter Output
+extension CoffeeShopsVC: ICoffeeShopsView {
+
+    func updateTableViewWithData(data: [CoffeeShopsModel]) {
+        coffeeShopView.updateTableView(data: data)
+    }
+    
+    func showError(error: any Error) {
+        print(error.localizedDescription)
+    }
+    
 
 }

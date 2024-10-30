@@ -17,8 +17,8 @@ struct CoffeeShopsNetworkModel: Decodable {
 }
 
 struct CoffeeShopsNetworkPoint: Decodable {
-    let latitude: Double?
-    let longitude: Double?
+    let latitude: String?
+    let longitude: String?
 }
 
 enum Networkerror: Error {

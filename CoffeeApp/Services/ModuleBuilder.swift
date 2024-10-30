@@ -20,10 +20,16 @@ final class ModuleBuilder {
         return loginRegisterVC
     }
 
-    func createCoffeeShopsVC() -> UIViewController {
-        let presenter = CoffeeShopsPresenter()
-        let interactor = CoffeeShopInteractor()
+    func createCoffeeShopsVC(user: User) -> UIViewController {
+        let decoder = DecoderService()
+        let dataSource = DataSourceService(decoder: decoder)
+        let interactor = CoffeeShopInteractor(dataSource: dataSource, user: user)
+        let router = CoffeeShopsRouter()
+        let presenter = CoffeeShopsPresenter(router: router, interactor: interactor)
         let coffeeShopVC = CoffeeShopsVC(presenter: presenter)
+
+        interactor.interactorOutput = presenter
+
         return coffeeShopVC
     }
 }

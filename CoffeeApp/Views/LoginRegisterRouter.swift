@@ -13,7 +13,7 @@ final class LoginRegisterRouter: IMainRouter {
 
     func goToCofeeShops(user: User) {
         guard let mainController = mainController else { return }
-        let coffeeShopsVC = ModuleBuilder.shared.createCoffeeShopsVC()
+        let coffeeShopsVC = ModuleBuilder.shared.createCoffeeShopsVC(user: user)
         mainController.navigationController?.pushViewController(coffeeShopsVC, animated: true)
     }
 

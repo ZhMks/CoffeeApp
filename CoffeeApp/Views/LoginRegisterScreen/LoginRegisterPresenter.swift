@@ -21,15 +21,20 @@ protocol IMainScreenView: AnyObject {
 
 final class LoginRegisterPresenter: ILoginRegisterPresenter {
 
+    // MARK: - Properties
     private let router: IMainRouter
     private let interactor: ILoginInteractor
 
     private weak var view: LoginRegisterVC?
 
+    // MARK: - Lifecycle
+
     init(router: IMainRouter, interactor: ILoginInteractor) {
         self.router = router
         self.interactor = interactor
     }
+
+    // MARK: - Functions
 
     func viewDidLoad(view: LoginRegisterVC) {
         self.view = view
