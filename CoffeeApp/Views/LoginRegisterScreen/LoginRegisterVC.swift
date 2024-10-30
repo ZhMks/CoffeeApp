@@ -76,9 +76,9 @@ extension LoginRegisterVC: IMainScreenView {
         case .email:
             loginRegisterView.showGreenBorderForEmail()
         case .password:
-            print()
+            loginRegisterView.showGreenBorderForPassword()
         case .repeatPassword:
-            print()
+            loginRegisterView.showGreenBorderForRepeatPassword()
         }
     }
     
@@ -87,9 +87,9 @@ extension LoginRegisterVC: IMainScreenView {
         case .email:
             loginRegisterView.showRedBorderForEmailField(error: errorText)
         case .password:
-            print()
+            loginRegisterView.showRedBorderForPassword(error: errorText)
         case .repeatPassword:
-            print()
+            loginRegisterView.showRedBorderForRepeatPassword(error: errorText)
         }
     }
     
@@ -121,7 +121,7 @@ extension LoginRegisterVC: ILoginViewDelegate {
         presenter.validateField(text: text, filed: field)
     }
     
-    func loginButtonTapped() {
-
+    func loginButtonTapped(user: Login) {
+        presenter.getUser(login: user)
     }
 }

@@ -67,7 +67,7 @@ final class LoginRegisterInteractor: ILoginInteractor {
     func validateText(text: String, field: TextFields) {
         validatorService.validateField(text: text, textFields: field) { result in
             switch result {
-            case .success(let success):
+            case .success(_):
                 interactorOutput?.showGreenBorder(field: field)
             case .failure(let failure):
                 switch failure {

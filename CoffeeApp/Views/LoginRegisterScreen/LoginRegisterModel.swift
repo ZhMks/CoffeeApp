@@ -5,6 +5,6 @@ struct User {
 
 
 struct Login: Codable {
-    let login: String
-    let password: String
+    var login: String
+    var password: String
 }

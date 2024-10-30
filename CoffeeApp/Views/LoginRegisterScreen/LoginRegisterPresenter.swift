@@ -8,6 +8,7 @@ protocol ILoginRegisterPresenter: AnyObject {
     func sendRegistrationRequest(login: Login)
     func checkKeyChain()
     func validateField(text: String, filed: TextFields)
+    func getUser(login: Login)
 }
 
 protocol IMainScreenView: AnyObject {
@@ -46,6 +47,10 @@ final class LoginRegisterPresenter: ILoginRegisterPresenter {
         interactor.validateText(text: text, field: filed)
     }
 
+    func getUser(login: Login) {
+        interactor.sendRegisterRequest(login: login)
+    }
+
 }
 
 
@@ -56,7 +61,6 @@ extension LoginRegisterPresenter: ILoginInteractorOutput {
         view?.showGreenBorderField(field: field)
     }
     
-
     func showRedBorder(field: TextFields, errorText: String) {
         view?.showRedBorderField(field: field, errorText: errorText)
     }
@@ -75,7 +79,7 @@ extension LoginRegisterPresenter: ILoginInteractorOutput {
     }
 
     func goToCoffeeShops(request: User) {
-        router.goToCofeeShops()
+        router.goToCofeeShops(user: request)
     }
     
     

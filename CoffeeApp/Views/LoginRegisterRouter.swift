@@ -3,7 +3,7 @@ import UIKit
 
 
 protocol IMainRouter: AnyObject {
-    func goToCofeeShops()
+    func goToCofeeShops(user: User)
 }
 
 
@@ -11,7 +11,7 @@ final class LoginRegisterRouter: IMainRouter {
     
     weak var mainController: UIViewController?
 
-    func goToCofeeShops() {
+    func goToCofeeShops(user: User) {
         guard let mainController = mainController else { return }
         let coffeeShopsVC = ModuleBuilder.shared.createCoffeeShopsVC()
         mainController.navigationController?.pushViewController(coffeeShopsVC, animated: true)
