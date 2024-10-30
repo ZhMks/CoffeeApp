@@ -25,6 +25,11 @@ final class LoginRegisterVC: UIViewController {
         setupView()
     }
 
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        loginRegisterView.emptyFields()
+    }
+
 
     // MARK: - Functions
 
@@ -117,11 +122,15 @@ extension LoginRegisterVC: IMainScreenView {
 // MARK: - IBUttonDelegate
 extension LoginRegisterVC: ILoginViewDelegate {
 
+    func sendAuthEvent(user: Login) {
+        presenter.authUser(user: user)
+    }
+
     func validationHappen(text: String, field: TextFields) {
         presenter.validateField(text: text, filed: field)
     }
     
-    func loginButtonTapped(user: Login) {
+    func sendRegisterEvent(user: Login) {
         presenter.getUser(login: user)
     }
 }

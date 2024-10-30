@@ -4,8 +4,9 @@ import UIKit
 
 
 protocol ILoginViewDelegate: AnyObject {
-    func loginButtonTapped(user: Login)
+    func sendRegisterEvent(user: Login)
     func validationHappen(text: String, field: TextFields)
+    func sendAuthEvent(user: Login)
 }
 
 final class LoginRegisterScreen: UIView {
@@ -150,7 +151,11 @@ final class LoginRegisterScreen: UIView {
     // MARK: - Functions
 
     @objc private func loginButtonTapped() {
-        delegate?.loginButtonTapped(user: login)
+        if self.contains(repeatPasswordTextField) {
+            delegate?.sendRegisterEvent(user: login)
+        } else {
+            delegate?.sendAuthEvent(user: login)
+        }
     }
 
     @objc private func makeViewFirstResponder() {
@@ -185,6 +190,16 @@ extension LoginRegisterScreen: UITextFieldDelegate {
 
 // MARK: -Layout
 extension LoginRegisterScreen {
+
+    func emptyFields() {
+        emailTextField.text = ""
+        passwordTextField.text = ""
+        repeatPasswordTextField.text = ""
+
+        passwordTextField.layer.borderColor = UIColor.systemBrown.cgColor
+        emailTextField.layer.borderColor = UIColor.systemBrown.cgColor
+        repeatPasswordTextField.layer.borderColor = UIColor.systemBrown.cgColor
+    }
 
     func setUpForLoginView() {
         let titleString = NSMutableAttributedString(string: "Войти")
@@ -368,45 +383,37 @@ extension LoginRegisterScreen {
 
         passwordTextField.layer.borderColor = UIColor.red.cgColor
 
-        passwordErrorLabel.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField.snp.bottom).offset(5)
-            make.leading.equalTo(self.snp.leading).offset(17)
-            make.trailing.equalTo(self.snp.trailing).offset(-18)
-            make.height.equalTo(18)
-        }
-
-        repeatPassword.snp.remakeConstraints { make in
-            make.top.equalTo(passwordErrorLabel.snp.bottom).offset(10)
+        emailLabel.snp.remakeConstraints { make in
+            make.top.equalTo(self.snp.top).offset(170)
             make.leading.equalTo(self.snp.leading).offset(18)
-            make.trailing.equalTo(self.snp.trailing).offset(-232)
+            make.trailing.equalTo(self.snp.trailing).offset(-316)
             make.height.equalTo(18)
         }
 
-        repeatPasswordTextField.snp.remakeConstraints { make in
-            make.top.equalTo(repeatPassword.snp.bottom).offset(8)
+        passwordErrorLabel.snp.makeConstraints { make in
+            make.top.equalTo(passwordTextField.snp.bottom).offset(10)
             make.leading.equalTo(self.snp.leading).offset(17)
             make.trailing.equalTo(self.snp.trailing).offset(-18)
-            make.height.equalTo(47)
+            make.height.equalTo(18)
         }
+
 
     }
 
     func showGreenBorderForPassword() {
         passwordErrorLabel.removeFromSuperview()
         passwordTextField.layer.borderColor = UIColor.green.cgColor
-
-        repeatPassword.snp.makeConstraints { make in
-            make.top.equalTo(passwordTextField.snp.bottom).offset(25)
-            make.leading.equalTo(self.snp.leading).offset(18)
-            make.trailing.equalTo(self.snp.trailing).offset(-232)
-            make.height.equalTo(18)
+        login.password = passwordTextField.text!
+        if !self.contains(repeatPasswordTextField) {
+            loginRegisterButton.isEnabled = true
+            loginRegisterButton.backgroundColor = UIColor(red: 52/255, green: 25/255, blue: 26/255, alpha: 1)
         }
 
-        repeatPasswordTextField.snp.makeConstraints { make in
-            make.top.equalTo(repeatPassword.snp.bottom).offset(8)
-            make.leading.equalTo(self.snp.leading).offset(17)
-            make.trailing.equalTo(self.snp.trailing).offset(-18)
-            make.height.equalTo(47)
+        emailLabel.snp.remakeConstraints { make in
+            make.top.equalTo(self.snp.top).offset(190)
+            make.leading.equalTo(self.snp.leading).offset(18)
+            make.trailing.equalTo(self.snp.trailing).offset(-316)
+            make.height.equalTo(18)
         }
     }
 

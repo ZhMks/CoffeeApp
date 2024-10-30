@@ -1,11 +1,13 @@
 import Alamofire
 import Foundation
 import KeychainAccess
+import LocalAuthentication
 
 protocol ILoginInteractor: AnyObject {
     func sendRegisterRequest(login: Login)
     func checkKeyChain()
     func validateText(text: String, field: TextFields)
+    func sendAuthRequest(login: Login)
     init(dataSource: IDataSourceService, validationService: IValidatorService)
 }
 
@@ -47,7 +49,9 @@ final class LoginRegisterInteractor: ILoginInteractor {
                 case .success(let newUser):
                     let keychain = Keychain()
                     do {
-                        try keychain.set(login.password, key: login.login)
+                        try keychain.set(login.login, key: "email")
+                        try keychain.set(login.password, key: "password")
+                        UserDefaults.standard.set("registered", forKey: "registered")
                         self?.interactorOutput?.goToCoffeeShops(request: newUser)
                     } catch {
                         print(error.localizedDescription)
@@ -59,9 +63,58 @@ final class LoginRegisterInteractor: ILoginInteractor {
         }
     }
 
+    func sendAuthRequest(login: Login) {
+        print("Login: \(login)")
+        let headers: HTTPHeaders = [
+            "Content-Type" : "application/json",
+        ]
+        let urlString = "http://147.78.66.203:3210/auth/login"
+        AF.request(urlString,
+                   method: .post,
+                   parameters: login,
+                   encoder: .json,
+                   headers: headers).response { [weak self] response in
+            self?.dataSource.getUser(response.data, completion: { [weak self] user in
+                switch user {
+                case .success(let newUser):
+                    self?.interactorOutput?.goToCoffeeShops(request: newUser)
+                case .failure(let failure):
+                    self?.interactorOutput?.showErrorAlert(error: failure)
+                }
+            })
+        }
+    }
+
     func checkKeyChain() {
-        if let token = try? Keychain().get("") {
-            interactorOutput?.showLoginScreen()
+        let context = LAContext()
+        var error: NSError?
+
+        if let _ = UserDefaults.standard.string(forKey: "registered") {
+            if context.canEvaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, error: &error) {
+                let reason = "Authenticate to access your account."
+
+                context.evaluatePolicy(.deviceOwnerAuthenticationWithBiometrics, localizedReason: reason) { [weak self] success, authenticationError in
+                    DispatchQueue.main.async {
+                        if success {
+                            if let password = try? Keychain().get("password"), let email = try? Keychain().get("email") {
+                                DispatchQueue.main.async {
+                                    self?.interactorOutput?.showLoginScreen()
+                                }
+                                let login = Login(login: email, password: password)
+                                self?.sendAuthRequest(login: login)
+                            } else {
+                                self?.interactorOutput?.showLoginScreen()
+                            }
+                        } else {
+                            self?.interactorOutput?.showLoginScreen()
+                            print("Authentication failed: \(authenticationError?.localizedDescription ?? "Unknown error")")
+                        }
+                    }
+                }
+            } else {
+                interactorOutput?.showLoginScreen()
+                print("Face ID is not available: \(error?.localizedDescription ?? "Unknown error")")
+            }
         } else {
             interactorOutput?.showRegisterScreen()
         }

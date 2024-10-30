@@ -25,11 +25,9 @@ final class Validator: IValidatorService {
             if text.isEmpty {
                 completion(.failure(.emptyField))
             }
-
             if !text.contains("@") {
                 completion(.failure(.invalidEmail))
             }
-
             else {
                 completion(.success(true))
             }
@@ -41,7 +39,6 @@ final class Validator: IValidatorService {
             if text.count < 6 {
                 completion(.failure(.invalidPassword))
             }
-
             else {
                 password = text
                 completion(.success(true))

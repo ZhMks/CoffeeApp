@@ -9,6 +9,7 @@ protocol ILoginRegisterPresenter: AnyObject {
     func checkKeyChain()
     func validateField(text: String, filed: TextFields)
     func getUser(login: Login)
+    func authUser(user: Login)
 }
 
 protocol IMainScreenView: AnyObject {
@@ -45,6 +46,7 @@ final class LoginRegisterPresenter: ILoginRegisterPresenter {
     }
 
     func checkKeyChain() {
+
         interactor.checkKeyChain()
     }
 
@@ -54,6 +56,10 @@ final class LoginRegisterPresenter: ILoginRegisterPresenter {
 
     func getUser(login: Login) {
         interactor.sendRegisterRequest(login: login)
+    }
+
+    func authUser(user: Login) {
+        interactor.sendAuthRequest(login: user)
     }
 
 }
