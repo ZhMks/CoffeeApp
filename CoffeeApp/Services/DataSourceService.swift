@@ -38,13 +38,13 @@ final class DataSourceService: IDataSourceService {
         decoder.decode(type: [CoffeeShopsNetworkModel].self, data) { result in
             switch result {
             case .success(let coffeeShops):
-                coffeeShopsArray = coffeeShops.flatMap({ model in
-                    model.compactMap { newModel in
-                        CoffeeShopsModel(id: newModel.id, name: newModel.name, point: newModel.point.flatMap({ newModelPoint in
-                            CoffeeShopPoint(latitude: newModelPoint.latitude ?? "", longitude: newModelPoint.longitude ?? "")
-                        })!)
-                    }
-                })!
+                guard let coffeeShops = coffeeShops else {
+                    let error = NSError()
+                    return completion(.failure(error))
+                }
+                coffeeShopsArray = coffeeShops.map({ model in
+                    CoffeeShopsModel(id: model.id, name: model.name, point: CoffeeShopPoint(latitude: model.point?.latitude ?? "0", longitude: model.point?.longitude ?? "0"))
+                })
                 completion(.success(coffeeShopsArray))
             case .failure(let failure):
                 completion(.failure(failure))

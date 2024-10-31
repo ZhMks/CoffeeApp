@@ -3,11 +3,13 @@ import CoreLocation
 
 protocol ICoffeeShopInteractor: AnyObject {
     func fetchCoffeeShops()
+    func getDestinationDifference()
 }
 
 protocol ICoffeeShopsInteractorOutput: AnyObject {
     func updateTableViewWithData(data: [CoffeeShopsModel])
     func showError(error: Error)
+    func destinationDifference(newData: [CoffeeShopsModel])
 }
 
 final class CoffeeShopInteractor: ICoffeeShopInteractor {
@@ -29,6 +31,7 @@ final class CoffeeShopInteractor: ICoffeeShopInteractor {
 
     // MARK: - Functions
     func fetchCoffeeShops() {
+        coreLocationManager.startUpdatingLocation()
         let headers: HTTPHeaders = [
             "Content-Type" : "application/json",
             "Authorization" : "Bearer \(user.token)"
@@ -52,17 +55,63 @@ final class CoffeeShopInteractor: ICoffeeShopInteractor {
     }
 
     func getDestinationDifference() {
-        
+        for (index, model) in modelsArray.enumerated() {
+            let lon = model.point.longitude
+            let lat = model.point.latitude
+
+            guard let longitude = Double(lon), let latitude = Double(lat) else { return  }
+            guard let distance = coreLocationManager.beginGettingLocation(lat: latitude, long: longitude) else { return }
+
+            modelsArray[index].destinationDifference = String(Int(distance))
+        }
+        interactorOutput?.destinationDifference(newData: self.modelsArray)
+    }
+
+    func requestUpdateLocation() {
+        coreLocationManager.startUpdatingLocation()
     }
 }
 
 class LocationManager: NSObject, CLLocationManagerDelegate {
 
+    let manager: CLLocationManager
+
+    var userLocation: CLLocation?
+
+    override init() {
+        manager = CLLocationManager()
+        super.init()
+
+        manager.delegate = self
+        manager.desiredAccuracy = kCLLocationAccuracyBest
+    }
+
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        print()
+        userLocation = locations.last
     }
 
     func locationManager(_ manager: CLLocationManager, didFailWithError error: any Error) {
-        print()
+        switch manager.authorizationStatus {
+        case .authorizedAlways, .authorizedWhenInUse:
+            print("Authirsed always")
+        case .notDetermined, .denied, .restricted:
+            print("notdetermined")
+        @unknown default:
+            print("Unknown error")
+        }
+    }
+
+
+    func beginGettingLocation(lat: Double, long: Double) -> Double? {
+        print("Shop loc: lat \(lat), lon \(long)")
+        guard let userLocation = userLocation else { return nil }
+        let destinationLocation = CLLocation(latitude: lat, longitude: long)
+        return userLocation.distance(from: destinationLocation) / 1000
+    }
+
+    func startUpdatingLocation() {
+        manager.requestWhenInUseAuthorization()
+        manager.startUpdatingLocation()
     }
 }

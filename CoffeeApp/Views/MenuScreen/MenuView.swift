@@ -56,12 +56,14 @@ final class MenuView: UIView {
 
     private func layotChildViews() {
         menuCollectionView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalTo(self.safeAreaLayoutGuide)
+            make.top.leading.trailing.equalTo(self.safeAreaLayoutGuide)
+            make.bottom.equalTo(self.safeAreaLayoutGuide).offset(-90)
         }
 
         payButton.snp.makeConstraints { make in
             make.top.equalTo(menuCollectionView.snp.bottom).offset(10)
-            make.leading.trailing.equalTo(self.safeAreaLayoutGuide).offset(10)
+            make.leading.equalTo(self.safeAreaLayoutGuide).offset(10)
+            make.trailing.equalTo(self.safeAreaLayoutGuide).offset(-10)
             make.height.equalTo(47)
         }
     }

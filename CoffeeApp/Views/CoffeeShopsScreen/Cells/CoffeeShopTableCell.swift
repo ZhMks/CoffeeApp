@@ -83,6 +83,7 @@ final class CoffeeShopTableCell: UITableViewCell {
 
     func updateCellWithData(model: CoffeeShopsModel) {
         nameLabel.text = model.name
+        distanceDifferenceLabel.text = model.destinationDifference
         addAttributedTextTo(label: nameLabel)
         addAttributedTextTo(label: distanceDifferenceLabel)
     }
@@ -105,8 +106,8 @@ final class CoffeeShopTableCell: UITableViewCell {
                 .kern : -0.14,
                 .font : UIFont.systemFont(ofSize: 14, weight: .regular)
             ]
-            let attributedText = NSMutableAttributedString(string: label.text!)
-            attributedText.addAttributes(attributes, range: NSRange(location: 0, length: label.text!.count))
+            let attributedText = NSMutableAttributedString(string: "\(label.text ?? "0") км от вас")
+            attributedText.addAttributes(attributes, range: NSRange(location: 0, length: attributedText.length))
             distanceDifferenceLabel.attributedText = attributedText
         }
     }

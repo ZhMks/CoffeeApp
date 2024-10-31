@@ -84,6 +84,10 @@ final class CoffeeShopsView: UIView {
         self.data = data
         coffeeShopsTableView.reloadData()
     }
+
+    func getDestinationData(data: String) {
+        
+    }
 }
 
 

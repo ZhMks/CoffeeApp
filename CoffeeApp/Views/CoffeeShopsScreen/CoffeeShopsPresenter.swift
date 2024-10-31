@@ -1,14 +1,16 @@
+import Foundation
 protocol ICoffeShopPresenter: AnyObject {
     func viewDidLoad(view: CoffeeShopsVC)
     func fetchCoffeeShops()
     func dismissView()
     func goToMenuView(id: Int)
+    func getDestinationDifference()
+    func requestUpdateLocation()
 }
 
 protocol ICoffeeShopsView: AnyObject {
     func updateTableViewWithData(data: [CoffeeShopsModel])
     func showError(error: Error)
-
 }
 
 final class CoffeeShopsPresenter: ICoffeShopPresenter {
@@ -41,13 +43,29 @@ final class CoffeeShopsPresenter: ICoffeShopPresenter {
         router.goToMenu(id: id)
     }
 
+    func getDestinationDifference() {
+            interactor.getDestinationDifference()
+    }
+
+    func requestUpdateLocation() {
+        interactor.requestUpdateLocation()
+    }
+
 }
 
 extension CoffeeShopsPresenter: ICoffeeShopsInteractorOutput {
 
+    func destinationDifference(newData: [CoffeeShopsModel]) {
+        view?.updateTableViewWithData(data: newData)
+    }
+    
+
     func updateTableViewWithData(data: [CoffeeShopsModel]) {
         self.dataInfo = data
         view?.updateTableViewWithData(data: self.dataInfo)
+        DispatchQueue.main.async {
+            self.getDestinationDifference()
+        }
     }
     
     func showError(error: any Error) {

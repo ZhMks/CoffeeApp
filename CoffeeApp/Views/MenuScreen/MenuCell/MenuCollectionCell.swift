@@ -17,28 +17,46 @@ final class MenuCollectionCell: UICollectionViewCell {
     private lazy var itemNameLabel: UILabel = {
         let itemNameLabel = UILabel()
         itemNameLabel.translatesAutoresizingMaskIntoConstraints = false
-        itemNameLabel.text = "ItemNameLabel"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(red: 175/255, green: 148/255, blue: 121/255, alpha: 1),
+            .kern : -0.12,
+            .font : UIFont.systemFont(ofSize: 15, weight: .regular)
+        ]
+        let text = "Капучино"
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttributes(attributes, range: NSRange(location: 0, length: text.count))
+        itemNameLabel.attributedText = attributedText
         return itemNameLabel
     }()
 
     private lazy var itemPriceLabel: UILabel = {
         let itemPriceLabel = UILabel()
         itemPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        itemPriceLabel.text = "ItemPriceLabel"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(red: 132/255, green: 99/255, blue: 64/255, alpha: 1),
+            .kern : -0.12,
+            .font : UIFont.systemFont(ofSize: 14, weight: .medium)
+        ]
+        let text = "200 руб"
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttributes(attributes, range: NSRange(location: 0, length: text.count))
+        itemNameLabel.attributedText = attributedText
         return itemPriceLabel
     }()
 
     private lazy var minusButton: UIButton = {
         let minusButton = UIButton(type: .system)
         minusButton.translatesAutoresizingMaskIntoConstraints = false
-        minusButton.backgroundColor = .black
+        minusButton.setBackgroundImage(UIImage(systemName: "minus"), for: .normal)
+        minusButton.tintColor = UIColor(red: 246/255, green: 229/255, blue: 209/255, alpha: 1)
         return minusButton
     }()
 
     private lazy var plusButton: UIButton = {
         let plusButton = UIButton(type: .system)
         plusButton.translatesAutoresizingMaskIntoConstraints = false
-        plusButton.backgroundColor = .black
+        plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        plusButton.tintColor = UIColor(red: 246/255, green: 229/255, blue: 209/255, alpha: 1)
         return plusButton
     }()
 
@@ -62,6 +80,11 @@ final class MenuCollectionCell: UICollectionViewCell {
 
     // MARK: - Functions
 
+
+}
+
+// MARK: - Layout
+extension MenuCollectionCell {
     private func setupUI() {
         addChildViews()
         layoutChildSubviews()
@@ -71,12 +94,13 @@ final class MenuCollectionCell: UICollectionViewCell {
         contentView.addSubview(itemImageView)
         contentView.addSubview(itemNameLabel)
         contentView.addSubview(itemPriceLabel)
-        contentView.addSubview(minusButton)
-        contentView.addSubview(numberOfItemsLabel)
-        contentView.addSubview(plusButton)
+//        contentView.addSubview(minusButton)
+//        contentView.addSubview(numberOfItemsLabel)
+//        contentView.addSubview(plusButton)
     }
 
     private func layoutChildSubviews() {
+
         itemImageView.snp.makeConstraints { make in
             make.top.equalTo(contentView.snp.top)
             make.leading.equalTo(contentView.snp.leading)
@@ -94,10 +118,10 @@ final class MenuCollectionCell: UICollectionViewCell {
         itemPriceLabel.snp.makeConstraints { make in
             make.top.equalTo(itemNameLabel.snp.bottom).offset(12)
             make.leading.equalTo(contentView.snp.leading).offset(11)
-            make.trailing.equalTo(contentView.snp.trailing).offset(-84)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-14)
             make.height.equalTo(17)
         }
-
+//
 //        minusButton.snp.makeConstraints { make in
 //            make.leading.equalTo(itemPriceLabel.snp.trailing).offset(10)
 //            make.centerY.equalTo(itemPriceLabel.snp.centerY)
