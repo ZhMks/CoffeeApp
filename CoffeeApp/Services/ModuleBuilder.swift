@@ -49,4 +49,17 @@ final class ModuleBuilder {
 
         return menuVC
     }
+
+    func createPayScreen(order: [[MenuItemModel]]) -> UIViewController {
+        let payVC = PayVC()
+        let payInteractor = PayInteractor()
+        let payRouter = PayRouter()
+        let payPresenter = PayPresenter(interactor: payInteractor, router: payRouter)
+
+        payInteractor.order = order
+        payRouter.mainController = payVC
+        payInteractor.delegate = payPresenter
+
+        return payVC
+    }
 }

@@ -1,6 +1,7 @@
 protocol IMenuPresenter: AnyObject {
     init(interactor: IMenuInteractor, router: IMenuRouter)
     func dismissView()
+    func fetchMenuForShop()
 }
 
 protocol IMenuView: AnyObject {
@@ -18,6 +19,10 @@ final class MenuPresenter: IMenuPresenter {
 
     func dismissView() {
         router.popViewController()
+    }
+
+    func fetchMenuForShop() {
+        interactor.fetchMenuForShop()
     }
 }
 

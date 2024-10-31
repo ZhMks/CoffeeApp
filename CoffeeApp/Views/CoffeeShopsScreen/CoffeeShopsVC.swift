@@ -43,7 +43,6 @@ final class CoffeeShopsVC: UIViewController {
         view.backgroundColor = UIColor(red: 250/255, green: 249/255, blue: 249/255, alpha: 1)
 
         presenter.viewDidLoad(view: self)
-
         setupSubviews()
         setupLayoutForSubviews()
         presenter.fetchCoffeeShops()

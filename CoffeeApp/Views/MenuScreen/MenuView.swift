@@ -19,7 +19,7 @@ final class MenuView: UIView {
         let payButton = UIButton(type: .system)
         payButton.translatesAutoresizingMaskIntoConstraints = false
         payButton.backgroundColor = UIColor(red: 52/255, green: 25/255, blue: 26/255, alpha: 1)
-        let titleString = NSMutableAttributedString(string: "Оплатить")
+        let titleString = NSMutableAttributedString(string: "Перейти к оплате")
         let attributes: [NSAttributedString.Key : Any] = [
             .font: UIFont.boldSystemFont(ofSize: 18),
             .foregroundColor: UIColor(red: 246/255, green: 229/255, blue: 209/255, alpha: 1),

@@ -12,6 +12,10 @@ protocol ICoffeeShopsInteractorOutput: AnyObject {
     func destinationDifference(newData: [CoffeeShopsModel])
 }
 
+protocol LocationDelegate: AnyObject {
+    func authorisationGranted()
+}
+
 final class CoffeeShopInteractor: ICoffeeShopInteractor {
 
     // MARK: - Properties
@@ -26,12 +30,13 @@ final class CoffeeShopInteractor: ICoffeeShopInteractor {
         self.dataSource = dataSource
         self.user = user
         self.coreLocationManager = coreLocation
+        coreLocation.delegate = self
     }
 
 
     // MARK: - Functions
     func fetchCoffeeShops() {
-        coreLocationManager.startUpdatingLocation()
+        coreLocationManager.requestAuthorisation()
         let headers: HTTPHeaders = [
             "Content-Type" : "application/json",
             "Authorization" : "Bearer \(user.token)"
@@ -40,7 +45,7 @@ final class CoffeeShopInteractor: ICoffeeShopInteractor {
         AF.request(urlString,
                    method: .get,
                    headers: headers).response { [weak self] response in
-            self?.dataSource.getCoffeeShops(response.data, completion: { result in
+            self?.dataSource.getCoffeeShops(response.data, completion: { [weak self] result in
                 switch result {
                 case .success(let success):
                     self?.modelsArray = success
@@ -55,28 +60,37 @@ final class CoffeeShopInteractor: ICoffeeShopInteractor {
     }
 
     func getDestinationDifference() {
-        for (index, model) in modelsArray.enumerated() {
-            let lon = model.point.longitude
-            let lat = model.point.latitude
+        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+            for (index, model) in self.modelsArray.enumerated() {
+                let lon = model.point.longitude
+                let lat = model.point.latitude
 
-            guard let longitude = Double(lon), let latitude = Double(lat) else { return  }
-            guard let distance = coreLocationManager.beginGettingLocation(lat: latitude, long: longitude) else { return }
+                guard let longitude = Double(lon), let latitude = Double(lat) else { return  }
+                guard let distance = self.coreLocationManager.beginGettingLocation(lat: latitude, long: longitude) else { return }
 
-            modelsArray[index].destinationDifference = String(Int(distance))
+                self.modelsArray[index].destinationDifference = String(Int(distance))
+            }
+            self.interactorOutput?.destinationDifference(newData: self.modelsArray)
         }
-        interactorOutput?.destinationDifference(newData: self.modelsArray)
     }
 
-    func requestUpdateLocation() {
-        coreLocationManager.startUpdatingLocation()
+}
+
+// MARK: - Location Delegate
+extension CoffeeShopInteractor: LocationDelegate {
+    func authorisationGranted() {
+        getDestinationDifference()
     }
 }
 
-class LocationManager: NSObject, CLLocationManagerDelegate {
+// MARK: - Location Manager
+final class LocationManager: NSObject, CLLocationManagerDelegate {
 
     let manager: CLLocationManager
 
     var userLocation: CLLocation?
+
+    weak var delegate: LocationDelegate?
 
     override init() {
         manager = CLLocationManager()
@@ -86,6 +100,17 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         manager.desiredAccuracy = kCLLocationAccuracyBest
     }
 
+    func locationManagerDidChangeAuthorization(_ manager: CLLocationManager) {
+        switch manager.authorizationStatus {
+        case .notDetermined, .restricted, .denied:
+            manager.stopUpdatingLocation()
+        case .authorizedAlways, .authorizedWhenInUse:
+            manager.startUpdatingLocation()
+            delegate?.authorisationGranted()
+        @unknown default:
+            print("Set status to unknown")
+        }
+    }
 
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         userLocation = locations.last
@@ -102,16 +127,13 @@ class LocationManager: NSObject, CLLocationManagerDelegate {
         }
     }
 
-
     func beginGettingLocation(lat: Double, long: Double) -> Double? {
-        print("Shop loc: lat \(lat), lon \(long)")
         guard let userLocation = userLocation else { return nil }
         let destinationLocation = CLLocation(latitude: lat, longitude: long)
         return userLocation.distance(from: destinationLocation) / 1000
     }
 
-    func startUpdatingLocation() {
+    func requestAuthorisation() {
         manager.requestWhenInUseAuthorization()
-        manager.startUpdatingLocation()
     }
 }

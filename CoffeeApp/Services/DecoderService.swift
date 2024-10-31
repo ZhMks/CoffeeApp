@@ -21,6 +21,13 @@ struct CoffeeShopsNetworkPoint: Decodable {
     let longitude: String?
 }
 
+struct MenuItemsNetworkModel: Decodable {
+    let name: String
+    let id: Int
+    let image: String
+    let price: Int
+}
+
 enum Networkerror: Error {
     case alreadyExists
     case wrongData

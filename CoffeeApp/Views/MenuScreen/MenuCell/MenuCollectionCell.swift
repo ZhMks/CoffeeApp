@@ -20,7 +20,7 @@ final class MenuCollectionCell: UICollectionViewCell {
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor(red: 175/255, green: 148/255, blue: 121/255, alpha: 1),
             .kern : -0.12,
-            .font : UIFont.systemFont(ofSize: 15, weight: .regular)
+            .font : UIFont.systemFont(ofSize: 15, weight: .medium)
         ]
         let text = "Капучино"
         let attributedText = NSMutableAttributedString(string: text)
@@ -35,12 +35,12 @@ final class MenuCollectionCell: UICollectionViewCell {
         let attributes: [NSAttributedString.Key: Any] = [
             .foregroundColor: UIColor(red: 132/255, green: 99/255, blue: 64/255, alpha: 1),
             .kern : -0.12,
-            .font : UIFont.systemFont(ofSize: 14, weight: .medium)
+            .font : UIFont.systemFont(ofSize: 14, weight: .bold)
         ]
         let text = "200 руб"
         let attributedText = NSMutableAttributedString(string: text)
         attributedText.addAttributes(attributes, range: NSRange(location: 0, length: text.count))
-        itemNameLabel.attributedText = attributedText
+        itemPriceLabel.attributedText = attributedText
         return itemPriceLabel
     }()
 
@@ -63,7 +63,15 @@ final class MenuCollectionCell: UICollectionViewCell {
     private lazy var numberOfItemsLabel: UILabel = {
         let numberOfItems = UILabel()
         numberOfItems.translatesAutoresizingMaskIntoConstraints = false
-        numberOfItems.text = "5"
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(red: 132/255, green: 99/255, blue: 64/255, alpha: 1),
+            .kern : -0.12,
+            .font : UIFont.systemFont(ofSize: 14, weight: .regular)
+        ]
+        let text = "5"
+        let attributedText = NSMutableAttributedString(string: text)
+        attributedText.addAttributes(attributes, range: NSRange(location: 0, length: text.count))
+        numberOfItems.attributedText = attributedText
         return numberOfItems
     }()
 
@@ -94,9 +102,9 @@ extension MenuCollectionCell {
         contentView.addSubview(itemImageView)
         contentView.addSubview(itemNameLabel)
         contentView.addSubview(itemPriceLabel)
-//        contentView.addSubview(minusButton)
-//        contentView.addSubview(numberOfItemsLabel)
-//        contentView.addSubview(plusButton)
+        contentView.addSubview(minusButton)
+        contentView.addSubview(numberOfItemsLabel)
+        contentView.addSubview(plusButton)
     }
 
     private func layoutChildSubviews() {
@@ -118,29 +126,27 @@ extension MenuCollectionCell {
         itemPriceLabel.snp.makeConstraints { make in
             make.top.equalTo(itemNameLabel.snp.bottom).offset(12)
             make.leading.equalTo(contentView.snp.leading).offset(11)
-            make.trailing.equalTo(contentView.snp.trailing).offset(-14)
+            make.trailing.equalTo(contentView.snp.trailing).offset(-84)
             make.height.equalTo(17)
         }
-//
-//        minusButton.snp.makeConstraints { make in
-//            make.leading.equalTo(itemPriceLabel.snp.trailing).offset(10)
-//            make.centerY.equalTo(itemPriceLabel.snp.centerY)
-//            make.trailing.equalTo(contentView.snp.trailing).offset(-19)
-//            make.height.equalTo(4)
-//        }
-//
-//        numberOfItemsLabel.snp.makeConstraints { make in
-//            make.leading.equalTo(minusButton.snp.trailing).offset(9)
-//            make.trailing.equalTo(plusButton.snp.leading).offset(-9)
-//            make.height.equalTo(17)
-//            make.centerY.equalTo(itemPriceLabel.snp.centerY)
-//        }
-//
-//        minusButton.snp.makeConstraints { make in
-//            make.leading.equalTo(numberOfItemsLabel.snp.trailing).offset(9)
-//            make.centerY.equalTo(itemPriceLabel.snp.centerY)
-//            make.trailing.equalTo(contentView.snp.trailing).offset(-6)
-//            make.height.equalTo(4)
-//        }
+
+        minusButton.snp.makeConstraints { make in
+            make.height.width.equalTo(24)
+            make.centerY.equalTo(itemPriceLabel.snp.centerY)
+            make.leading.equalTo(contentView.snp.leading).offset(84)
+        }
+
+        numberOfItemsLabel.snp.makeConstraints { make in
+            make.leading.equalTo(minusButton.snp.trailing).offset(9)
+            make.trailing.equalTo(plusButton.snp.leading).offset(-9)
+            make.height.equalTo(17)
+            make.centerY.equalTo(itemPriceLabel.snp.centerY)
+        }
+
+        plusButton.snp.makeConstraints { make in
+            make.height.width.equalTo(24)
+            make.centerY.equalTo(itemPriceLabel.snp.centerY)
+            make.leading.equalTo(numberOfItemsLabel.snp.trailing).offset(9)
+        }
     }
 }

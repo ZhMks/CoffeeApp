@@ -1,31 +1,27 @@
-import UIKit
 import SnapKit
+import UIKit
 
-final class MenuVC: UIViewController {
+
+
+final class PayVC: UIViewController {
+
     // MARK: - Properties
-    private var presenter: IMenuPresenter
-    private let menuView = MenuView()
+    private let presenter: IPayPresenter
+    private let payView = PayView()
+
 
     // MARK: - Lifecycle
-    init(presenter: IMenuPresenter) {
+    init(presenter: IPayPresenter) {
         self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
-
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        view.backgroundColor = UIColor(red: 250/255, green: 249/255, blue: 249/255, alpha: 1)
-        setupNavigation()
-        layoutChildSubview()
-        presenter.fetchMenuForShop()
-    }
+    
 
     // MARK: - Functions
-
     private func setupNavigation() {
         let navigationView = UIView()
         let titleLabel = UILabel()
@@ -50,26 +46,20 @@ final class MenuVC: UIViewController {
         leftView.addSubview(leftButton)
         leftButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         leftButton.tintColor = .systemBrown
-        
+
         let leftBarButton = UIBarButtonItem(customView: leftView)
         self.navigationItem.leftBarButtonItem = leftBarButton
         self.navigationItem.titleView = navigationView
     }
 
-    @objc func dismissView() {
-        presenter.dismissView()
-    }
-
-    private func layoutChildSubview() {
-        view.addSubview(menuView)
-        menuView.snp.makeConstraints { make in
-            make.top.leading.trailing.bottom.equalTo(self.view.safeAreaLayoutGuide)
-        }
+   @objc private func dismissView() {
+       presenter.dismissView()
     }
 }
 
 
-// MARK: - Presenter Output
-extension MenuVC: IMenuView {
+// MARK: - Presenter output
+extension PayVC: IPayView {
+
 
 }
