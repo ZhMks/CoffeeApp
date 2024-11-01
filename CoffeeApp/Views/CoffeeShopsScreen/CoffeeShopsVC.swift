@@ -106,6 +106,10 @@ extension CoffeeShopsVC: ICoffeeShopSelected {
         presenter.goToMenuView(id: coffeeShop)
     }
 
+    func goToMapView() {
+        presenter.goToMapView()
+    }
+
 }
 
 

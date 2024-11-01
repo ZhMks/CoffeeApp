@@ -60,7 +60,7 @@ final class CoffeeShopInteractor: ICoffeeShopInteractor {
     }
 
     func getDestinationDifference() {
-        DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
             for (index, model) in self.modelsArray.enumerated() {
                 let lon = model.point.longitude
                 let lat = model.point.latitude

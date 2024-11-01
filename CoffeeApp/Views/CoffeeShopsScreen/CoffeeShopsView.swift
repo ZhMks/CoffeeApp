@@ -3,6 +3,7 @@ import SnapKit
 
 protocol ICoffeeShopSelected: AnyObject {
     func didSelectCoffeeShop(_ coffeeShop: Int)
+    func goToMapView()
 }
 
 
@@ -38,6 +39,7 @@ final class CoffeeShopsView: UIView {
         onMapButton.setAttributedTitle(titleString, for: .normal)
         onMapButton.backgroundColor = UIColor(red: 52/255, green: 25/255, blue: 26/255, alpha: 1)
         onMapButton.layer.cornerRadius = 24.5
+        onMapButton.addTarget(self, action: #selector(goToMapView), for: .touchUpInside)
         return onMapButton
     }()
 
@@ -83,6 +85,10 @@ final class CoffeeShopsView: UIView {
     func updateTableView(data: [CoffeeShopsModel]) {
         self.data = data
         coffeeShopsTableView.reloadData()
+    }
+
+    @objc func goToMapView() {
+        delegate?.goToMapView()
     }
 }
 

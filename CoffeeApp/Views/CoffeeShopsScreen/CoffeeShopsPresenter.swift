@@ -40,6 +40,10 @@ final class CoffeeShopsPresenter: ICoffeShopPresenter {
     func goToMenuView(id: Int) {
         router.goToMenu(id: id, token: interactor.user.token)
     }
+
+    func goToMapView() {
+        router.goToMapView(shops: self.dataInfo)
+    }
 }
 
 extension CoffeeShopsPresenter: ICoffeeShopsInteractorOutput {

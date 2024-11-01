@@ -62,4 +62,18 @@ final class ModuleBuilder {
 
         return payVC
     }
+
+    func createMapScreen(shops: [CoffeeShopsModel]) -> UIViewController {
+
+        let mapInteractor = MapInteractor(shops: shops)
+        let mapRouter = MapRouter()
+        let mapPresenter = MapPresenter(interactor: mapInteractor, router: mapRouter)
+        let mapVC = MapVC(presenter: mapPresenter)
+
+        mapInteractor.delegate = mapPresenter
+        mapPresenter.view = mapVC
+        mapRouter.mainController = mapVC
+
+        return mapVC
+    }
 }

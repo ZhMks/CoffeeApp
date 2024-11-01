@@ -5,3 +5,4 @@ Pods/Manifest.lock filter=lfs diff=lfs merge=lfs -text
 Pods/Pods.xcodeproj filter=lfs diff=lfs merge=lfs -text
 Pods/Target[[:space:]]Support[[:space:]]Files filter=lfs diff=lfs merge=lfs -text
 Pods/YandexMapsMobile filter=lfs diff=lfs merge=lfs -text
+YandexMapsMobile filter=lfs diff=lfs merge=lfs -text
