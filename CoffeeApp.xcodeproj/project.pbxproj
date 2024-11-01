@@ -7,20 +7,38 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		B2225E342CD0CBEF00794C2E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E332CD0CBEF00794C2E /* SnapKit */; };
-		B2225E362CD0CBEF00794C2E /* SnapKit-Dynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E352CD0CBEF00794C2E /* SnapKit-Dynamic */; };
-		B2225E392CD0CC1800794C2E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E382CD0CC1800794C2E /* Alamofire */; };
-		B2225E3B2CD0CC1800794C2E /* AlamofireDynamic in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E3A2CD0CC1800794C2E /* AlamofireDynamic */; };
+		B20BCA912CD4A2EA005F2E30 /* Kingfisher in Frameworks */ = {isa = PBXBuildFile; productRef = B20BCA902CD4A2EA005F2E30 /* Kingfisher */; };
+		B2225E4E2CD0D28F00794C2E /* Alamofire in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E4D2CD0D28F00794C2E /* Alamofire */; };
+		B2225E532CD0D29500794C2E /* SnapKit in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E522CD0D29500794C2E /* SnapKit */; };
+		B2225E8E2CD20B5400794C2E /* KeychainAccess in Frameworks */ = {isa = PBXBuildFile; productRef = B2225E8D2CD20B5400794C2E /* KeychainAccess */; };
+		C3DF798F8C13E1B4DDBDBEDA /* Pods_CoffeeApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9302E2DCCEB1982E94864B4E /* Pods_CoffeeApp.framework */; };
 /* End PBXBuildFile section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		B2225E702CD0D3D800794C2E /* Embed Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+			);
+			name = "Embed Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		9302E2DCCEB1982E94864B4E /* Pods_CoffeeApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CoffeeApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		B2225E0A2CD0CB0500794C2E /* CoffeeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CoffeeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FB550113DA177D016D65EE58 /* Pods-CoffeeApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoffeeApp.debug.xcconfig"; path = "Target Support Files/Pods-CoffeeApp/Pods-CoffeeApp.debug.xcconfig"; sourceTree = "<group>"; };
+		FBE25AF6D86C8D32159DED22 /* Pods-CoffeeApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CoffeeApp.release.xcconfig"; path = "Target Support Files/Pods-CoffeeApp/Pods-CoffeeApp.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
 		B2225E1C2CD0CB0700794C2E /* Exceptions for "CoffeeApp" folder in "CoffeeApp" target */ = {
 			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
 			membershipExceptions = (
+				"/Localized: LaunchScreen.storyboard",
 				Info.plist,
 			);
 			target = B2225E092CD0CB0500794C2E /* CoffeeApp */;
@@ -43,21 +61,32 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B2225E392CD0CC1800794C2E /* Alamofire in Frameworks */,
-				B2225E3B2CD0CC1800794C2E /* AlamofireDynamic in Frameworks */,
-				B2225E342CD0CBEF00794C2E /* SnapKit in Frameworks */,
-				B2225E362CD0CBEF00794C2E /* SnapKit-Dynamic in Frameworks */,
+				B20BCA912CD4A2EA005F2E30 /* Kingfisher in Frameworks */,
+				B2225E532CD0D29500794C2E /* SnapKit in Frameworks */,
+				B2225E4E2CD0D28F00794C2E /* Alamofire in Frameworks */,
+				B2225E8E2CD20B5400794C2E /* KeychainAccess in Frameworks */,
+				C3DF798F8C13E1B4DDBDBEDA /* Pods_CoffeeApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		7F2EFCD53E81BD0E28F9BC64 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9302E2DCCEB1982E94864B4E /* Pods_CoffeeApp.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		B2225E012CD0CB0500794C2E = {
 			isa = PBXGroup;
 			children = (
 				B2225E0C2CD0CB0500794C2E /* CoffeeApp */,
 				B2225E0B2CD0CB0500794C2E /* Products */,
+				D69E950EB2D196A7D8CA515A /* Pods */,
+				7F2EFCD53E81BD0E28F9BC64 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -69,6 +98,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		D69E950EB2D196A7D8CA515A /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				FB550113DA177D016D65EE58 /* Pods-CoffeeApp.debug.xcconfig */,
+				FBE25AF6D86C8D32159DED22 /* Pods-CoffeeApp.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -76,9 +114,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = B2225E1D2CD0CB0700794C2E /* Build configuration list for PBXNativeTarget "CoffeeApp" */;
 			buildPhases = (
+				6080C0734DB88DC2514CBFB4 /* [CP] Check Pods Manifest.lock */,
 				B2225E062CD0CB0500794C2E /* Sources */,
 				B2225E072CD0CB0500794C2E /* Frameworks */,
 				B2225E082CD0CB0500794C2E /* Resources */,
+				B2225E702CD0D3D800794C2E /* Embed Frameworks */,
+				F972F68428A0F9FBB3A3C985 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -89,10 +130,10 @@
 			);
 			name = CoffeeApp;
 			packageProductDependencies = (
-				B2225E332CD0CBEF00794C2E /* SnapKit */,
-				B2225E352CD0CBEF00794C2E /* SnapKit-Dynamic */,
-				B2225E382CD0CC1800794C2E /* Alamofire */,
-				B2225E3A2CD0CC1800794C2E /* AlamofireDynamic */,
+				B2225E4D2CD0D28F00794C2E /* Alamofire */,
+				B2225E522CD0D29500794C2E /* SnapKit */,
+				B2225E8D2CD20B5400794C2E /* KeychainAccess */,
+				B20BCA902CD4A2EA005F2E30 /* Kingfisher */,
 			);
 			productName = CoffeeApp;
 			productReference = B2225E0A2CD0CB0500794C2E /* CoffeeApp.app */;
@@ -123,8 +164,10 @@
 			mainGroup = B2225E012CD0CB0500794C2E;
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
-				B2225E322CD0CBEF00794C2E /* XCRemoteSwiftPackageReference "SnapKit" */,
-				B2225E372CD0CC1800794C2E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				B2225E4C2CD0D28F00794C2E /* XCRemoteSwiftPackageReference "Alamofire" */,
+				B2225E512CD0D29500794C2E /* XCRemoteSwiftPackageReference "SnapKit" */,
+				B2225E8C2CD20B5400794C2E /* XCRemoteSwiftPackageReference "KeychainAccess" */,
+				B20BCA8F2CD4A2EA005F2E30 /* XCRemoteSwiftPackageReference "Kingfisher" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = B2225E0B2CD0CB0500794C2E /* Products */;
@@ -146,6 +189,48 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		6080C0734DB88DC2514CBFB4 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-CoffeeApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		F972F68428A0F9FBB3A3C985 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CoffeeApp/Pods-CoffeeApp-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-CoffeeApp/Pods-CoffeeApp-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-CoffeeApp/Pods-CoffeeApp-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		B2225E062CD0CB0500794C2E /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -159,16 +244,21 @@
 /* Begin XCBuildConfiguration section */
 		B2225E1E2CD0CB0700794C2E /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FB550113DA177D016D65EE58 /* Pods-CoffeeApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y6VX64W3KZ;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CoffeeApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = NSFaceIDUsageDescription;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Authenticate to access your account.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для удобства использования разрешите получать ваши координаты.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
@@ -191,16 +281,21 @@
 		};
 		B2225E1F2CD0CB0700794C2E /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = FBE25AF6D86C8D32159DED22 /* Pods-CoffeeApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = Y6VX64W3KZ;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = CoffeeApp/Info.plist;
+				INFOPLIST_KEY_LSApplicationCategoryType = NSFaceIDUsageDescription;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "Authenticate to access your account.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Для удобства использования разрешите получать ваши координаты.";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
-				INFOPLIST_KEY_UIMainStoryboardFile = Main;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
@@ -258,7 +353,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -273,7 +368,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -321,7 +416,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
-				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GCC_C_LANGUAGE_STANDARD = gnu17;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -330,7 +425,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 18.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 16.6;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -364,15 +459,15 @@
 /* End XCConfigurationList section */
 
 /* Begin XCRemoteSwiftPackageReference section */
-		B2225E322CD0CBEF00794C2E /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+		B20BCA8F2CD4A2EA005F2E30 /* XCRemoteSwiftPackageReference "Kingfisher" */ = {
 			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			repositoryURL = "https://github.com/onevcat/Kingfisher";
 			requirement = {
 				kind = upToNextMajorVersion;
-				minimumVersion = 5.7.1;
+				minimumVersion = 8.1.0;
 			};
 		};
-		B2225E372CD0CC1800794C2E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
+		B2225E4C2CD0D28F00794C2E /* XCRemoteSwiftPackageReference "Alamofire" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/Alamofire/Alamofire";
 			requirement = {
@@ -380,28 +475,44 @@
 				minimumVersion = 5.10.1;
 			};
 		};
+		B2225E512CD0D29500794C2E /* XCRemoteSwiftPackageReference "SnapKit" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/SnapKit/SnapKit";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.7.1;
+			};
+		};
+		B2225E8C2CD20B5400794C2E /* XCRemoteSwiftPackageReference "KeychainAccess" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/kishikawakatsumi/KeychainAccess";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		B2225E332CD0CBEF00794C2E /* SnapKit */ = {
+		B20BCA902CD4A2EA005F2E30 /* Kingfisher */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B2225E322CD0CBEF00794C2E /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = SnapKit;
+			package = B20BCA8F2CD4A2EA005F2E30 /* XCRemoteSwiftPackageReference "Kingfisher" */;
+			productName = Kingfisher;
 		};
-		B2225E352CD0CBEF00794C2E /* SnapKit-Dynamic */ = {
+		B2225E4D2CD0D28F00794C2E /* Alamofire */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B2225E322CD0CBEF00794C2E /* XCRemoteSwiftPackageReference "SnapKit" */;
-			productName = "SnapKit-Dynamic";
-		};
-		B2225E382CD0CC1800794C2E /* Alamofire */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = B2225E372CD0CC1800794C2E /* XCRemoteSwiftPackageReference "Alamofire" */;
+			package = B2225E4C2CD0D28F00794C2E /* XCRemoteSwiftPackageReference "Alamofire" */;
 			productName = Alamofire;
 		};
-		B2225E3A2CD0CC1800794C2E /* AlamofireDynamic */ = {
+		B2225E522CD0D29500794C2E /* SnapKit */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = B2225E372CD0CC1800794C2E /* XCRemoteSwiftPackageReference "Alamofire" */;
-			productName = AlamofireDynamic;
+			package = B2225E512CD0D29500794C2E /* XCRemoteSwiftPackageReference "SnapKit" */;
+			productName = SnapKit;
+		};
+		B2225E8D2CD20B5400794C2E /* KeychainAccess */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = B2225E8C2CD20B5400794C2E /* XCRemoteSwiftPackageReference "KeychainAccess" */;
+			productName = KeychainAccess;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
