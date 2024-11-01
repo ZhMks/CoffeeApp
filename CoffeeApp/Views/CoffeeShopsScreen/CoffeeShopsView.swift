@@ -20,7 +20,7 @@ final class CoffeeShopsView: UIView {
         coffeeShopsTableView.dataSource = self
         coffeeShopsTableView.register(CoffeeShopTableCell.self, forCellReuseIdentifier: .cofeeShopID)
         coffeeShopsTableView.rowHeight = 71
-        coffeeShopsTableView.backgroundColor = .systemBackground
+        coffeeShopsTableView.backgroundColor = .white
         coffeeShopsTableView.separatorStyle = .none
         return coffeeShopsTableView
     }()
@@ -47,7 +47,7 @@ final class CoffeeShopsView: UIView {
         super.init(frame: frame)
         addViewsToMainView()
         layoutChildViews()
-        backgroundColor = .systemBackground
+        backgroundColor = .white
     }
 
     required init?(coder: NSCoder) {
@@ -83,10 +83,6 @@ final class CoffeeShopsView: UIView {
     func updateTableView(data: [CoffeeShopsModel]) {
         self.data = data
         coffeeShopsTableView.reloadData()
-    }
-
-    func getDestinationData(data: String) {
-        
     }
 }
 

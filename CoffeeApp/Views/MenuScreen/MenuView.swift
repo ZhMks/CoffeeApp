@@ -1,17 +1,28 @@
 import SnapKit
 import UIKit
 
+protocol IPayMenuInteraction: AnyObject {
+    func goToPayment()
+    func addToCart(item: OrderModel)
+    func removeFromCart(item: OrderModel)
+}
+
 final class MenuView: UIView {
     // MARK: - Properties
 
+    var dataForcell: [MenuItemModel] = []
+    weak var delegate: IPayMenuInteraction?
+
     private lazy var menuCollectionView: UICollectionView = {
         let layout = UICollectionViewFlowLayout()
+        layout.scrollDirection = .vertical
         let colletcionView = UICollectionView(frame: .zero, collectionViewLayout: layout)
         colletcionView.translatesAutoresizingMaskIntoConstraints = false
-        colletcionView.backgroundColor = .systemBackground
+        colletcionView.backgroundColor = .white
         colletcionView.delegate = self
         colletcionView.dataSource = self
         colletcionView.register(MenuCollectionCell.self, forCellWithReuseIdentifier: MenuCollectionCell.identifier)
+        colletcionView.isScrollEnabled = true
         return colletcionView
     }()
 
@@ -28,13 +39,14 @@ final class MenuView: UIView {
         titleString.addAttributes(attributes, range: NSRange(location: 0, length: titleString.length))
         payButton.setAttributedTitle(titleString, for: .normal)
         payButton.layer.cornerRadius = 24.5
+        payButton.addTarget(self, action: #selector(goToPayScreen), for: .touchUpInside)
         return payButton
     }()
 
     // MARK: - Lifecycle
     init() {
         super.init(frame: .zero)
-        self.backgroundColor = .systemBackground
+        self.backgroundColor = .white
         initialSetup()
     }
 
@@ -43,6 +55,10 @@ final class MenuView: UIView {
     }
 
     // MARK: - Functions
+
+    @objc func goToPayScreen() {
+        delegate?.goToPayment()
+    }
 
     private func initialSetup() {
         addChildViews()
@@ -68,17 +84,24 @@ final class MenuView: UIView {
         }
     }
 
+    func updateDataForCollectionView(data: [MenuItemModel]) {
+        self.dataForcell = data
+        menuCollectionView.reloadData()
+    }
 }
 
 // MARK: - CollectionView DataSource
 
 extension MenuView: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        4
+        dataForcell.count
     }
     
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard let cell = collectionView.dequeueReusableCell(withReuseIdentifier: MenuCollectionCell.identifier, for: indexPath) as? MenuCollectionCell else { return UICollectionViewCell() }
+        let data = dataForcell[indexPath.row]
+        cell.updateCellWithData(data: data)
+        cell.delegate = self
         return cell
     }
 
@@ -95,4 +118,16 @@ extension MenuView: UICollectionViewDataSource {
 // MARK: - CollectionView delegate
 extension MenuView: UICollectionViewDelegateFlowLayout {
 
+}
+
+// MARK: - ICreate order delegate
+extension MenuView: ICreateOrder {
+    
+    func addToCart(_ item: OrderModel) {
+        delegate?.addToCart(item: item)
+    }
+    
+    func removeFromCart(_ item: OrderModel) {
+        delegate?.removeFromCart(item: item)
+    }
 }

@@ -1,7 +1,6 @@
-//
-//  PayModel.swift
-//  CoffeeApp
-//
-//  Created by Максим Жуин on 31.10.2024.
-//
-
+struct OrderModel {
+    var id: Int
+    var name: String
+    var price: Int
+    var totalNumberOfItem: Int
+}

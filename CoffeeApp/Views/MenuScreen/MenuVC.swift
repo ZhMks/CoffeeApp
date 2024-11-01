@@ -22,6 +22,8 @@ final class MenuVC: UIViewController {
         setupNavigation()
         layoutChildSubview()
         presenter.fetchMenuForShop()
+        presenter.viewDidLoad(view: self)
+        menuView.delegate = self
     }
 
     // MARK: - Functions
@@ -71,5 +73,32 @@ final class MenuVC: UIViewController {
 
 // MARK: - Presenter Output
 extension MenuVC: IMenuView {
+    
+    func showAlert() {
+        let alertController = UIAlertController(title: "Пусто", message: "Пожалуйста, вначале добавьте заказ :)", preferredStyle: .alert)
+        let action = UIAlertAction(title: "Отмена", style: .cancel)
+        alertController.addAction(action)
+        self.navigationController?.present(alertController, animated: true)
+    }
+    
+    func updateData(data: [MenuItemModel]) {
+        menuView.updateDataForCollectionView(data: data)
+    }
+}
+
+
+// MARK: - Payment menu view delegate
+extension MenuVC: IPayMenuInteraction {
+    func goToPayment() {
+        presenter.goToPayment()
+    }
+    
+    func addToCart(item: OrderModel) {
+        presenter.addToCart(item: item)
+    }
+    
+    func removeFromCart(item: OrderModel) {
+        presenter.removeFromCart(item: item)
+    }
 
 }

@@ -19,13 +19,23 @@ final class PayVC: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
+
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        view.backgroundColor = .white
+        setupNavigation()
+        presenter.viewDidLoad(view: self)
+        presenter.updateData()
+        setupUI()
+        setupConstraints()
+    }
+
 
     // MARK: - Functions
     private func setupNavigation() {
         let navigationView = UIView()
         let titleLabel = UILabel()
-        let title = "Меню"
+        let title = "Ваш заказ"
         let characterSpacing = -0.12
         let attributes: [NSAttributedString.Key: Any] = [
             .font: UIFont.boldSystemFont(ofSize: 18),
@@ -61,5 +71,22 @@ final class PayVC: UIViewController {
 // MARK: - Presenter output
 extension PayVC: IPayView {
 
+    func updateViewData(order: [OrderModel]) {
+        payView.updateDataForView(order: order)
+    }
+}
 
+// MARK: - Layout
+
+extension PayVC {
+    private func setupUI() {
+        view.addSubview(payView)
+        payView.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    private func setupConstraints() {
+        payView.snp.makeConstraints { make in
+            make.top.leading.trailing.bottom.width.equalTo(self.view.safeAreaLayoutGuide)
+        }
+    }
 }

@@ -2,7 +2,7 @@ import UIKit
 
 protocol ICoffeeShopsRouter: AnyObject {
     func dismissView()
-    func goToMenu(id: Int)
+    func goToMenu(id: Int, token: String)
 }
 
 final class CoffeeShopsRouter: ICoffeeShopsRouter {
@@ -13,8 +13,8 @@ final class CoffeeShopsRouter: ICoffeeShopsRouter {
         mainController?.navigationController?.popViewController(animated: true)
     }
 
-    func goToMenu(id: Int) {
-        let menuVC = ModuleBuilder.shared.createMenuForShop(id: id)
+    func goToMenu(id: Int, token: String) {
+        let menuVC = ModuleBuilder.shared.createMenuForShop(id: id, token: token)
         mainController?.navigationController?.pushViewController(menuVC, animated: true)
     }
 }

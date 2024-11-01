@@ -38,7 +38,7 @@ final class CoffeeShopsPresenter: ICoffeShopPresenter {
     }
 
     func goToMenuView(id: Int) {
-        router.goToMenu(id: id)
+        router.goToMenu(id: id, token: interactor.user.token)
     }
 }
 

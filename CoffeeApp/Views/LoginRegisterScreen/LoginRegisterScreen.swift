@@ -140,7 +140,7 @@ final class LoginRegisterScreen: UIView {
     init() {
         super.init(frame: .zero)
         addTapGesture()
-        self.backgroundColor = .systemBackground
+        self.backgroundColor = .white
     }
 
     required init?(coder: NSCoder) {

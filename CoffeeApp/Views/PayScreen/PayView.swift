@@ -3,10 +3,18 @@ import UIKit
 
 final class PayView: UIView {
 
+    var orderData: [OrderModel] = []
+
     // MARK: - Properties
     private lazy var payOrderTableView: UITableView = {
-        let tableView = UITableView()
+        let tableView = UITableView(frame: .zero, style: .plain)
         tableView.translatesAutoresizingMaskIntoConstraints = false
+        tableView.delegate = self
+        tableView.dataSource = self
+        tableView.register(PayTableCell.self, forCellReuseIdentifier: PayTableCell.identifier)
+        tableView.rowHeight = 71
+        tableView.backgroundColor = .white
+        tableView.separatorStyle = .none
         return tableView
     }()
 
@@ -18,17 +26,14 @@ final class PayView: UIView {
             .kern : -0.12,
             .font : UIFont.systemFont(ofSize: 24, weight: .medium),
         ]
-        let text = """
-                   Время ожидания заказа
-                         15 минут!
-                   Спасибо, что выбрали нас!
-                   """
+        let text = "Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!"
+        informationLabel.textAlignment = .center
         let attributedText = NSMutableAttributedString(string: text)
         attributedText.addAttributes(attributes, range: NSRange(location: 0, length: text.count))
         informationLabel.attributedText = attributedText
         return informationLabel
     }()
-    
+
     private lazy var payButton: UIButton = {
         let payButton = UIButton(type: .system)
         payButton.translatesAutoresizingMaskIntoConstraints = false
@@ -45,7 +50,90 @@ final class PayView: UIView {
         return payButton
     }()
 
+    // MARK: - Lifecycle
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setupUI()
+        setupConstraints()
+    }
+
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     // MARK: - Functions
-    
+    func updateDataForView(order: [OrderModel]) {
+        self.orderData = order
+    }
 }
 
+// MARK: - Layout
+extension PayView {
+    private func setupUI() {
+        self.addSubview(payOrderTableView)
+        self.addSubview(informationLabel)
+        self.addSubview(payButton)
+    }
+
+    private func setupConstraints() {
+        payOrderTableView.snp.makeConstraints { make in
+            make.top.equalTo(self.safeAreaLayoutGuide.snp.top)
+            make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading)
+            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing)
+            make.width.equalTo(self.snp.width)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-300)
+        }
+
+        informationLabel.snp.makeConstraints { make in
+            make.top.equalTo(payOrderTableView.snp.bottom).offset(10)
+            make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(20)
+            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).offset(-20)
+            make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-106)
+        }
+
+        payButton.snp.makeConstraints { make in
+            make.top.equalTo(informationLabel.snp.bottom).offset(30)
+            make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(10)
+            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).offset(-10)
+            make.height.equalTo(48)
+        }
+    }
+}
+
+// MARK: - TableView DataSource
+extension PayView: UITableViewDataSource {
+
+    func numberOfSections(in tableView: UITableView) -> Int {
+        orderData.count
+    }
+
+    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        1
+    }
+
+    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        guard let cell = tableView.dequeueReusableCell(withIdentifier: PayTableCell.identifier, for: indexPath) as? PayTableCell else { return UITableViewCell() }
+        let dataForCell = orderData[indexPath.section]
+        cell.updateCellWithData(model: dataForCell)
+        cell.selectionStyle = .none
+        return cell
+    }
+
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        10
+    }
+
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let view = UIView()
+        view.backgroundColor = .clear
+        return view
+    }
+
+
+}
+
+// MARK: - TableView Delegate
+extension PayView: UITableViewDelegate {
+
+}

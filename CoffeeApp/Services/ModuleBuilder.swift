@@ -35,11 +35,11 @@ final class ModuleBuilder {
         return coffeeShopVC
     }
 
-    func createMenuForShop(id: Int) -> UIViewController {
+    func createMenuForShop(id: Int, token: String) -> UIViewController {
 
         let decoder = DecoderService()
         let dataSource = DataSourceService(decoder: decoder)
-        let interactor = MenuInteractor(dataSource: dataSource, id: id)
+        let interactor = MenuInteractor(dataSource: dataSource, id: id, token: token)
         let router = MenuRouter()
         let presenter = MenuPresenter(interactor: interactor, router: router)
         let menuVC = MenuVC(presenter: presenter)
@@ -50,11 +50,11 @@ final class ModuleBuilder {
         return menuVC
     }
 
-    func createPayScreen(order: [[MenuItemModel]]) -> UIViewController {
-        let payVC = PayVC()
-        let payInteractor = PayInteractor()
+    func createPayScreen(order: [OrderModel]) -> UIViewController {
+        let payInteractor = PayInteractor(order: order)
         let payRouter = PayRouter()
         let payPresenter = PayPresenter(interactor: payInteractor, router: payRouter)
+        let payVC = PayVC(presenter: payPresenter)
 
         payInteractor.order = order
         payRouter.mainController = payVC

@@ -20,7 +20,7 @@ final class CoffeeShopInteractor: ICoffeeShopInteractor {
 
     // MARK: - Properties
     private let dataSource: IDataSourceService
-    private let user: User
+    let user: User
     weak var interactorOutput: ICoffeeShopsInteractorOutput?
     var modelsArray: [CoffeeShopsModel] = []
     private let coreLocationManager: LocationManager
