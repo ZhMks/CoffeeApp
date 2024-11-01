@@ -3,6 +3,8 @@ protocol IPayPresenter: AnyObject {
     func dismissView()
     func viewDidLoad(view: PayVC)
     func updateData()
+    func removeItem(item: OrderModel)
+    func addItem(item: OrderModel)
 }
 
 protocol IPayView: AnyObject {
@@ -32,6 +34,14 @@ final class PayPresenter: IPayPresenter {
 
     func updateData() {
         interactor.updateData()
+    }
+
+    func removeItem(item: OrderModel) {
+        interactor.removeItem(item: item)
+    }
+
+    func addItem(item: OrderModel) {
+        interactor.addItem(item: item)
     }
 }
 

@@ -42,7 +42,7 @@ final class MapView: UIView {
         mapView.mapWindow.map.move(
             with: YMKCameraPosition(
                 target: YMKPoint(latitude: Double(lat)!, longitude: Double(lon)!),
-                zoom: 15,
+                zoom: 2.0,
                 azimuth: 0,
                 tilt: 0
             ),
@@ -73,7 +73,7 @@ final class MapView: UIView {
                 color: UIColor(red: 132/255, green: 99/255, blue: 64/255, alpha: 1),
                 outlineWidth: 2.0,
                 outlineColor: .white,
-                placement: .top,
+                placement: .bottom,
                 offset: 0.0,
                 offsetFromIcon: true,
                 textOptional: false

@@ -28,6 +28,7 @@ final class PayVC: UIViewController {
         presenter.updateData()
         setupUI()
         setupConstraints()
+        payView.delegate = self
     }
 
 
@@ -76,6 +77,17 @@ extension PayVC: IPayView {
     }
 }
 
+// MARK: - PayViewDelegate
+extension PayVC: IPayDelegate {
+    func removeItem(item: OrderModel) {
+        presenter.removeItem(item: item)
+    }
+
+    func addItem(item: OrderModel) {
+        presenter.addItem(item: item)
+    }
+}
+
 // MARK: - Layout
 
 extension PayVC {
@@ -90,3 +102,5 @@ extension PayVC {
         }
     }
 }
+
+

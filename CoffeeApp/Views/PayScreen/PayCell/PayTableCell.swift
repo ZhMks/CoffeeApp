@@ -1,9 +1,16 @@
 import UIKit
 import SnapKit
 
+protocol IPayCellDelegate: AnyObject {
+        func removeItem(item: OrderModel)
+        func addItem(item: OrderModel)
+}
+
 final class PayTableCell: UITableViewCell {
 
     static let identifier = String.payTableCell
+    weak var delegate: IPayCellDelegate?
+    var item: OrderModel?
 
     private lazy var containerView: UIView = {
         let containerView = UIView()
@@ -83,11 +90,22 @@ final class PayTableCell: UITableViewCell {
     // MARK: - Functions
 
     @objc func minusButtonTapped() {
-
+        guard let item = self.item else { return }
+        delegate?.removeItem(item: item)
     }
 
     @objc func plusButtonTapped() {
+        guard let item = self.item else { return }
+        delegate?.addItem(item: item)
+    }
 
+    func updateCellWithData(model: OrderModel) {
+        self.item = model
+        itemNameLabel.text = model.name
+        itemPriceLabel.text = String(model.price)
+        addAttributedTextTo(label: itemNameLabel)
+        addAttributedTextTo(label: itemPriceLabel)
+        numberOfItemsLabel.text = "\(model.totalNumberOfItem)"
     }
 
     private func setupSubviews() {
@@ -142,14 +160,6 @@ final class PayTableCell: UITableViewCell {
             make.leading.equalTo(containerView.snp.leading).offset(345)
             make.bottom.equalTo(containerView.snp.bottom).offset(-23)
         }
-    }
-
-    func updateCellWithData(model: OrderModel) {
-        itemNameLabel.text = model.name
-        itemPriceLabel.text = String(model.price)
-        addAttributedTextTo(label: itemNameLabel)
-        addAttributedTextTo(label: itemPriceLabel)
-        numberOfItemsLabel.text = "\(model.totalNumberOfItem)"
     }
 
     private func addAttributedTextTo(label: UILabel) {
