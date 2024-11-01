@@ -53,15 +53,6 @@ final class MenuCollectionCell: UICollectionViewCell {
     private lazy var itemPriceLabel: UILabel = {
         let itemPriceLabel = UILabel()
         itemPriceLabel.translatesAutoresizingMaskIntoConstraints = false
-        let attributes: [NSAttributedString.Key: Any] = [
-            .foregroundColor: UIColor(red: 132/255, green: 99/255, blue: 64/255, alpha: 1),
-            .kern : -0.12,
-            .font : UIFont.systemFont(ofSize: 14, weight: .bold)
-        ]
-        let text = itemPriceLabel.text ?? "0"
-        let attributedText = NSMutableAttributedString(string: "\(text)руб")
-        attributedText.addAttributes(attributes, range: NSRange(location: 0, length: text.count))
-        itemPriceLabel.attributedText = attributedText
         return itemPriceLabel
     }()
 
@@ -77,7 +68,7 @@ final class MenuCollectionCell: UICollectionViewCell {
     private lazy var plusButton: UIButton = {
         let plusButton = UIButton(type: .system)
         plusButton.translatesAutoresizingMaskIntoConstraints = false
-        plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
+        plusButton.setImage(UIImage(named: "plus"), for: .normal)
         plusButton.tintColor = UIColor(red: 246/255, green: 229/255, blue: 209/255, alpha: 1)
         plusButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
         return plusButton
@@ -126,7 +117,7 @@ final class MenuCollectionCell: UICollectionViewCell {
         }
 
         itemNameLabel.text = data.name
-        itemPriceLabel.text = String(data.price)
+        updatePriceText(string: String(data.price))
     }
 
     @objc func plusButtonTapped() {
@@ -150,6 +141,17 @@ final class MenuCollectionCell: UICollectionViewCell {
         }
     }
 
+    private func updatePriceText(string: String) {
+        let attributes: [NSAttributedString.Key: Any] = [
+            .foregroundColor: UIColor(red: 132/255, green: 99/255, blue: 64/255, alpha: 1),
+            .kern : -0.12,
+            .font : UIFont.systemFont(ofSize: 14, weight: .bold)
+        ]
+        let text = string
+        let attributedText = NSMutableAttributedString(string: "\(text) руб")
+        attributedText.addAttributes(attributes, range: NSRange(location: 0, length: attributedText.length))
+        itemPriceLabel.attributedText = attributedText
+    }
 }
 
 // MARK: - Layout

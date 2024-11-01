@@ -41,7 +41,6 @@ final class CoffeeShopsVC: UIViewController {
 
     private func initialSetup() {
         view.backgroundColor = UIColor(red: 250/255, green: 249/255, blue: 249/255, alpha: 1)
-
         presenter.viewDidLoad(view: self)
         setupSubviews()
         setupLayoutForSubviews()
@@ -70,7 +69,7 @@ final class CoffeeShopsVC: UIViewController {
 
         let leftView = UIView(frame: CGRect(x: 0, y: 0, width: 44, height: 24))
         let leftButton = UIButton(frame: CGRect(x: 6, y: 6, width: 8, height: 12))
-        leftButton.setBackgroundImage(UIImage(systemName: "chevron.left"), for: .normal)
+        leftButton.setBackgroundImage(UIImage(named: "chevron.left"), for: .normal)
         leftView.addSubview(leftButton)
         leftButton.addTarget(self, action: #selector(dismissView), for: .touchUpInside)
         leftButton.tintColor = .systemBrown

@@ -38,7 +38,7 @@ final class PayTableCell: UITableViewCell {
         let minusButton = UIButton(type: .system)
         minusButton.translatesAutoresizingMaskIntoConstraints = false
         minusButton.setBackgroundImage(UIImage(systemName: "minus"), for: .normal)
-        minusButton.tintColor = UIColor(red: 246/255, green: 229/255, blue: 209/255, alpha: 1)
+        minusButton.tintColor = UIColor(red: 132/255, green: 99/255, blue: 64/255, alpha: 1)
         minusButton.addTarget(self, action: #selector(minusButtonTapped), for: .touchUpInside)
         return minusButton
     }()
@@ -46,8 +46,8 @@ final class PayTableCell: UITableViewCell {
     private lazy var plusButton: UIButton = {
         let plusButton = UIButton(type: .system)
         plusButton.translatesAutoresizingMaskIntoConstraints = false
-        plusButton.setImage(UIImage(systemName: "plus"), for: .normal)
-        plusButton.tintColor = UIColor(red: 246/255, green: 229/255, blue: 209/255, alpha: 1)
+        plusButton.setImage(UIImage(named: "plus"), for: .normal)
+        plusButton.tintColor = UIColor(red: 132/255, green: 99/255, blue: 64/255, alpha: 1)
         plusButton.addTarget(self, action: #selector(plusButtonTapped), for: .touchUpInside)
         return plusButton
     }()
@@ -125,20 +125,21 @@ final class PayTableCell: UITableViewCell {
         minusButton.snp.makeConstraints { make in
             make.top.equalTo(containerView.snp.top).offset(24)
             make.width.equalTo(24)
-            make.leading.equalTo(containerView.snp.leading).offset(260)
+            make.leading.equalTo(containerView.snp.leading).offset(295)
             make.bottom.equalTo(containerView.snp.bottom).offset(-23)
         }
 
         numberOfItemsLabel.snp.makeConstraints { make in
-            make.height.equalTo(19)
+            make.height.equalTo(24)
             make.centerY.equalTo(minusButton.snp.centerY)
+            make.trailing.equalTo(plusButton.snp.leading).offset(-9)
             make.leading.equalTo(minusButton.snp.trailing).offset(9)
         }
 
         plusButton.snp.makeConstraints { make in
             make.width.equalTo(24)
             make.top.equalTo(containerView.snp.top).offset(24)
-            make.leading.equalTo(containerView.snp.leading).offset(315)
+            make.leading.equalTo(containerView.snp.leading).offset(345)
             make.bottom.equalTo(containerView.snp.bottom).offset(-23)
         }
     }

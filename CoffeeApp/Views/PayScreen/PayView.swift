@@ -29,8 +29,9 @@ final class PayView: UIView {
         let text = "Время ожидания заказа\n15 минут!\nСпасибо, что выбрали нас!"
         informationLabel.textAlignment = .center
         let attributedText = NSMutableAttributedString(string: text)
-        attributedText.addAttributes(attributes, range: NSRange(location: 0, length: text.count))
+        attributedText.addAttributes(attributes, range: NSRange(location: 0, length: attributedText.length))
         informationLabel.attributedText = attributedText
+        informationLabel.numberOfLines = 0 
         return informationLabel
     }()
 
@@ -87,8 +88,8 @@ extension PayView {
 
         informationLabel.snp.makeConstraints { make in
             make.top.equalTo(payOrderTableView.snp.bottom).offset(10)
-            make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(20)
-            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).offset(-20)
+            make.leading.equalTo(self.safeAreaLayoutGuide.snp.leading).offset(13)
+            make.trailing.equalTo(self.safeAreaLayoutGuide.snp.trailing).offset(-13)
             make.bottom.equalTo(self.safeAreaLayoutGuide.snp.bottom).offset(-106)
         }
 
