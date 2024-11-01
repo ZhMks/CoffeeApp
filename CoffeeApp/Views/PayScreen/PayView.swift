@@ -1,7 +1,14 @@
 import SnapKit
 import UIKit
 
+protocol IPayDelegate: AnyObject {
+    func removeItem(item: OrderModel)
+    func addItem(item: OrderModel)
+}
+
 final class PayView: UIView {
+
+    weak var delegate: IPayDelegate?
 
     var orderData: [OrderModel] = []
 
@@ -66,6 +73,7 @@ final class PayView: UIView {
     // MARK: - Functions
     func updateDataForView(order: [OrderModel]) {
         self.orderData = order
+        payOrderTableView.reloadData()
     }
 }
 
@@ -118,6 +126,7 @@ extension PayView: UITableViewDataSource {
         let dataForCell = orderData[indexPath.section]
         cell.updateCellWithData(model: dataForCell)
         cell.selectionStyle = .none
+        cell.delegate = self
         return cell
     }
 
@@ -136,5 +145,18 @@ extension PayView: UITableViewDataSource {
 
 // MARK: - TableView Delegate
 extension PayView: UITableViewDelegate {
+
+}
+
+// MARK: - IPAYCell delegate
+extension PayView: IPayCellDelegate {
+    func removeItem(item: OrderModel) {
+        delegate?.removeItem(item: item)
+    }
+    
+    func addItem(item: OrderModel) {
+        delegate?.addItem(item: item)
+    }
+    
 
 }
